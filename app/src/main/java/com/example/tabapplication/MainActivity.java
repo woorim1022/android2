@@ -1,4 +1,4 @@
-package com.example.tabapplication;
+    package com.example.tabapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.TabHost;
-
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,19 +36,7 @@ public class MainActivity extends AppCompatActivity {
         ts3.setContent(R.id.tab3) ;
         ts3.setIndicator("TAB 3") ;
         tabHost1.addTab(ts3) ;
+        
 
-        // 리사이클러뷰에 표시할 데이터 리스트 생성.
-        ArrayList<String> list = new ArrayList<>();
-        for (int i=0; i<100; i++) {
-            list.add(String.format("TEXT %d", i)) ;
-        }
-
-        // 리사이클러뷰에 LinearLayoutManager 객체 지정.
-        RecyclerView recyclerView = findViewById(R.id.recycler1) ;
-        recyclerView.setLayoutManager(new LinearLayoutManager(this)) ;
-
-        // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
-        Adapter adapter = new Adapter(list) ;
-        recyclerView.setAdapter(adapter) ;
     }
 }
