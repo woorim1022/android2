@@ -1,4 +1,4 @@
-package com.example.tabapplication;
+/*package com.example.tabapplication;
 
 public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.ViewHolder> {
     private String[] textSet;
@@ -50,3 +50,4 @@ public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.Vi
     }
 
 }
+*/
