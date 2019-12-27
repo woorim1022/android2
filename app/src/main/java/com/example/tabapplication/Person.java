@@ -1,5 +1,4 @@
 package com.example.tabapplication;
-
 public class Person {
     private String name1;
     private String tel1;
