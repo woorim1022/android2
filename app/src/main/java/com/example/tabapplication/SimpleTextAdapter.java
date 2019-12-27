@@ -1,8 +1,12 @@
 package com.example.tabapplication;
 
 public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.ViewHolder> {
-    private ArrayList<String> mData null;
+    private String[] textSet;
+    private int[] imgSet;
 
+    public MyAdapter(String[] textSet, int[] imgSet){
+        this.textSet
+    }
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView1 ;
