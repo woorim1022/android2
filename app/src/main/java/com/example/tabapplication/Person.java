@@ -1,31 +1,22 @@
 package com.example.tabapplication;
 
 public class Person {
-    private int id;
-    private String name;
-    private String tel;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private String name1;
+    private String tel1;
 
     public String getName() {
-        return name;
+        return name1;
     }
 
     public void setName(String name) {
-        this.name = name;
+        name1 = name;
     }
 
     public String getTel() {
-        return tel;
+        return tel1;
     }
 
     public void setTel(String tel) {
-        this.tel = tel;
+        tel1 = tel;
     }
 }

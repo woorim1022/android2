@@ -1,4 +1,4 @@
-    package com.example.tabapplication;
+package com.example.tabapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +11,11 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    // 리사이클러뷰에 표시할 데이터 리스트 생성.
+    RecyclerView recyclerView = null;
+    Adapter adapter = null;
+    ArrayList<Person> list = new ArrayList<Person>();
+    Person a = new Person();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +41,32 @@ public class MainActivity extends AppCompatActivity {
         ts3.setContent(R.id.tab3) ;
         ts3.setIndicator("TAB 3") ;
         tabHost1.addTab(ts3) ;
-        
 
+        recyclerView = findViewById(R.id.recycler1) ;
+        // 리사이클러뷰에 Adapter 객체 지정.
+        adapter = new Adapter(list) ;
+        recyclerView.setAdapter(adapter);
+
+
+        // 리사이클러뷰에 LinearLayoutManager 객체 지정.
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)) ;
+
+        addPerson("정예준","010-2795-2608");
+        adapter.notifyDataSetChanged();
+//        JSONObject jsonObject = new JSONObject();
+//        JSONObject data1 = new JSONObject();
+//        data1.put("name", "정예준");
+//        data1.put("번호", "010-2795-2608");
+//        JSONArray array1 = new JSONArray();
+//        array1.add(data1);
+//        jsonObject.put("first",array1);
+
+    }
+    public void addPerson(String name, String tel) {
+        Person person = new Person();
+
+        person.setName(name);
+        person.setTel(tel);
+        list.add(person);
     }
 }

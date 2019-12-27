@@ -84,25 +84,13 @@
                         android:layout_below="@id/customgallery" />
 
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scrollbars="vertical" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/tab3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler3"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scrollbars="vertical" />
-                </LinearLayout>
+                    android:orientation="vertical"/>
             </FrameLayout>
         </LinearLayout>
     </TabHost>
