@@ -1,7 +1,14 @@
 package com.example.tabapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
+import android.widget.TabHost;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this)) ;
 
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
-        SimpleTextAdapter adapter = new SimpleTextAdapter(list) ;
+        Adapter adapter = new Adapter(list) ;
         recyclerView.setAdapter(adapter) ;
     }
 }
