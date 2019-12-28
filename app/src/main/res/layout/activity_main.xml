@@ -39,52 +39,64 @@
                         android:id="@+id/recycler1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scrollbars="vertical" />
+                        android:scrollbars="vertical"/>
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/tab2"
+                <ScrollView
+                    android:id="@+id/ScrollView1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <!-- Camera Intent를 실행할 Button 선언 -->
-                    <Button
-                        android:id="@+id/takepicbtn"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:id="@+id/tab2"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="Take Picture" />
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                    <!-- 사진의 경로를 받아다 String으로 보여줄 TextView 선언 -->
-                    <TextView
-                        android:id="@+id/imgpath"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/takepicbtn"
-                        android:padding="10dp"
-                        android:text="Hello World!"/>
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/download" />
 
-                    <!-- 지정한 경로 내의 사진들을 보여줄 Gallery 선언 -->
-                    <Gallery
-                        android:id="@+id/customgallery"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/imgpath"></Gallery>
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/ball" />
+                        <ImageView
+                            android:id="@+id/imageView4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/flower" />
+                        <ImageView
+                            android:id="@+id/imageView5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/leaf" />
+                        <ImageView
+                            android:id="@+id/imageView6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/whale" />
+                        <ImageView
+                            android:id="@+id/imageView7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/snowman" />
+                        <ImageView
+                            android:id="@+id/imageView8"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/sky" />
 
-                    <!-- Gallery 내 선택한 사진을 크게 보여줄 ImageView 선언 -->
-                    <ImageView
-                        android:id="@+id/resultview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_below="@id/customgallery" />
-
-
-                </LinearLayout>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scrollbars="vertical" />
+                    </LinearLayout>
+                </ScrollView>
 
                 <LinearLayout
                     android:id="@+id/tab3"
