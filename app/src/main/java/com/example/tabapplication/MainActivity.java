@@ -5,8 +5,18 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TextView;
+import android.widget.GridView;
 
 import org.json.JSONException;
 import org.json.JSONArray;
@@ -18,6 +28,30 @@ import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
     private Adapter adapter;
+
+    private int[] imageIDs = new int[] {
+            R.drawable.ball,
+            R.drawable.download,
+            R.drawable.flower,
+            R.drawable.leaf,
+            R.drawable.sky,
+            R.drawable.snowman,
+            R.drawable.apple,
+            R.drawable.bonobono,
+            R.drawable.bubble,
+            R.drawable.flag,
+            R.drawable.frog,
+            R.drawable.frozen,
+            R.drawable.mickey,
+            R.drawable.mouse2020,
+            R.drawable.pororo,
+            R.drawable.ryan,
+            R.drawable.shoe,
+            R.drawable.totoro,
+            R.drawable.tulip,
+            R.drawable.whale,
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +79,21 @@ public class MainActivity extends AppCompatActivity {
         init();
         String a = getJsonString();
         jsonParsing(a);
+
+
+
+        GridView gridViewImages = (GridView)findViewById(R.id.gridViewImages);
+        ImageGridAdapter imageGridAdapter = new ImageGridAdapter(this, imageIDs);
+        gridViewImages.setAdapter(imageGridAdapter);
+
+
     }
+
+
+
+
+
+
     private void init() {
         RecyclerView recyclerView = findViewById(R.id.recycler1);
 
@@ -100,4 +148,12 @@ public class MainActivity extends AppCompatActivity {
         }
         adapter.notifyDataSetChanged();
     }
+
+
+
+
 }
+
+
+
+
