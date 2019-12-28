@@ -6,9 +6,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.TabHost;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import java.util.*;
+
+import org.json.JSONException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
     private Adapter adapter;
@@ -37,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
         ts3.setIndicator("TAB 3");
         tabHost1.addTab(ts3);
         init();
-        getData();
+        String a = getJsonString();
+        jsonParsing(a);
     }
     private void init() {
         RecyclerView recyclerView = findViewById(R.id.recycler1);
@@ -48,30 +54,46 @@ public class MainActivity extends AppCompatActivity {
         adapter = new Adapter();
         recyclerView.setAdapter(adapter);
     }
-    private void getData() {
-        // 임의의 데이터입니다.
-        List<String> listTitle = Arrays.asList("정예준","홍길동","아무개");
-        List<String> listContent = Arrays.asList(
-                "010-2795-2608","010-0000-0000","010-9999-9999"
-        );
-        for (int i = 0; i < listTitle.size(); i++) {
-            // 각 List의 값들을 data 객체에 set 해줍니다.
-            Person data = new Person();
-            data.setName(listTitle.get(i));
-            data.setTel(listContent.get(i));
+    private String getJsonString()
+    {
+        String json = "";
 
-            // 각 값이 들어간 data를 adapter에 추가합니다.
-            adapter.addItem(data);
+        try {
+            InputStream is = getAssets().open("person.json");
+            int fileSize = is.available();
+
+            byte[] buffer = new byte[fileSize];
+            is.read(buffer);
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
         }
 
-        // adapter의 값이 변경되었다는 것을 알려줍니다.
+        return json;
+    }
+    private void jsonParsing(String json)
+    {
+        try{
+            JSONObject jsonObject = new JSONObject(json);
+            JSONArray personArray = jsonObject.getJSONArray("person");
+
+            for(int i=0; i<personArray.length(); i++)
+            {
+                JSONObject personObject = personArray.getJSONObject(i);
+
+                Person person = new Person();
+
+                person.setName(personObject.getString("name"));
+                person.setTel(personObject.getString("tel"));
+                adapter.addItem(person);
+            }
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
         adapter.notifyDataSetChanged();
     }
-//        JSONObject jsonObject = new JSONObject();
-//        JSONObject data1 = new JSONObject();
-//        data1.put("name", "정예준");
-//        data1.put("번호", "010-2795-2608");
-//        JSONArray array1 = new JSONArray();
-//        array1.add(data1);
-//        jsonObject.put("first",array1);
 }
