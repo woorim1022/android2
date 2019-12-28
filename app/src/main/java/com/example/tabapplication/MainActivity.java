@@ -1,6 +1,7 @@
 package com.example.tabapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new Adapter();
         recyclerView.setAdapter(adapter);
+        RecyclerDecoration spaceDecoration = new RecyclerDecoration(70);
+        recyclerView.addItemDecoration(spaceDecoration);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), 1));
     }
     private String getJsonString()
     {

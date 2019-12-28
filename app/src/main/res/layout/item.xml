@@ -14,9 +14,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:id="@+id/nameid"
-            android:textSize="24dp"
+            android:id="@+id/name_id"
+            android:textSize="37dp"
             android:textColor="#000000"
+            android:fontFamily="@font/gothicl"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,10 +25,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:id="@+id/telid"
-            android:textSize="16dp"
+            android:id="@+id/tel_id"
+            android:textSize="18dp"
             android:textColor="#666666"
-            app:layout_constraintLeft_toRightOf="@id/nameid"
+            android:fontFamily="@font/gothicl"
+            app:layout_constraintLeft_toRightOf="@id/name_id"
             app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
 </LinearLayout>

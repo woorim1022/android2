@@ -22,8 +22,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             super(itemView) ;
 
             // 뷰 객체에 대한 참조. (hold strong reference)
-            name = itemView.findViewById(R.id.nameid) ;
-            tel = itemView.findViewById(R.id.telid) ;
+            name = itemView.findViewById(R.id.name_id) ;
+            tel = itemView.findViewById(R.id.tel_id) ;
         }
         void onBind(Person data) {
             name.setText(data.getName());
