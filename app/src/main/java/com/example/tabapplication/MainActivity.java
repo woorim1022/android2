@@ -12,11 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.GridView;
+import android.widget.Toast;
+
+import com.example.tabapplication.adapters.BookmarkAdapter;
+import com.example.tabapplication.models.Bookmark;
 
 import org.json.JSONException;
 import org.json.JSONArray;
@@ -28,6 +35,9 @@ import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
     private Adapter adapter;
+    private EditText et_address;
+    private Button btn_add;
+    private ListView Iv_bookmark;
 
     private int[] imageIDs = new int[] {
             R.drawable.ball,
@@ -76,22 +86,13 @@ public class MainActivity extends AppCompatActivity {
         ts3.setContent(R.id.tab3);
         ts3.setIndicator("TAB 3");
         tabHost1.addTab(ts3);
+
         init();
+
+        //json주소반환
         String a = getJsonString();
         jsonParsing(a);
-
-
-
-        GridView gridViewImages = (GridView)findViewById(R.id.gridViewImages);
-        ImageGridAdapter imageGridAdapter = new ImageGridAdapter(this, imageIDs);
-        gridViewImages.setAdapter(imageGridAdapter);
-
-
     }
-
-
-
-
 
 
     private void init() {
@@ -105,7 +106,36 @@ public class MainActivity extends AppCompatActivity {
         RecyclerDecoration spaceDecoration = new RecyclerDecoration(70);
         recyclerView.addItemDecoration(spaceDecoration);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), 1));
+
+        //그리드뷰
+        GridView gridViewImages = (GridView)findViewById(R.id.gridViewImages);
+        ImageGridAdapter imageGridAdapter = new ImageGridAdapter(this, imageIDs);
+        gridViewImages.setAdapter(imageGridAdapter);
+
+        et_address = (EditText) findViewById(R.id.et_address);
+        btn_add = (Button) findViewById(R.id.btn_add);
+        Iv_bookmark = (ListView) findViewById(R.id.Iv_bookmark);
+
+        final BookmarkAdapter bookmarkAdapter = new BookmarkAdapter();
+        Iv_bookmark.setAdapter(bookmarkAdapter);
+
+        btn_add.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                final String address = et_address.getText().toString();
+                Bookmark bookmark = new Bookmark(address);
+                if(bookmarkAdapter.hasDuplicate(bookmark)) {
+                    Toast.makeText(MainActivity.this, getString(R.string.duplicate), Toast.LENGTH_SHORT).show();
+                } else {
+                     bookmarkAdapter.addBookmark(bookmark);
+                    Toast.makeText(MainActivity.this, getString(R.string.complete), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
+
+
     private String getJsonString()
     {
         String json = "";
@@ -127,6 +157,8 @@ public class MainActivity extends AppCompatActivity {
 
         return json;
     }
+
+
     private void jsonParsing(String json)
     {
         try{
@@ -148,8 +180,6 @@ public class MainActivity extends AppCompatActivity {
         }
         adapter.notifyDataSetChanged();
     }
-
-
 
 
 }

@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">Tab application</string>
+    <string name="app_name">Tab Application</string>
+    <string name="add">추가</string>
+    <string name="duplicate">이미 등록된 주소입니다.</string>
+    <string name="complete">등록되었습니다.</string>
 </resources>
