@@ -14,10 +14,12 @@ public class ImageGridAdapter extends BaseAdapter {
     Context context = null;
 
     int[] imageIDs = null;
+    String[] filenames = null;
 
-    public ImageGridAdapter(Context context, int[] imageIDs) {
+    public ImageGridAdapter(Context context, int[] imageIDs, String[] filenames) {
         this.context = context;
         this.imageIDs = imageIDs;
+        this.filenames = filenames;
     }
     public int getCount() {
         return (null != imageIDs) ? imageIDs.length:0;
@@ -43,7 +45,7 @@ public class ImageGridAdapter extends BaseAdapter {
             imageView.setAdjustViewBounds(true);
             imageView.setImageBitmap(bmp);
 
-            ImageClickListener imageViewClickListener = new ImageClickListener(context, imageIDs[position]);
+            ImageClickListener imageViewClickListener = new ImageClickListener(context, imageIDs[position],filenames[position]);
             imageView.setOnClickListener(imageViewClickListener);
         }
         return imageView;

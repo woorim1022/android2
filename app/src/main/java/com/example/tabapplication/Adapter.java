@@ -1,24 +1,31 @@
 package com.example.tabapplication;
 
 import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name ;
         TextView tel;
 
-        ViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView) ;
 
             // 뷰 객체에 대한 참조. (hold strong reference)
@@ -57,5 +64,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         // 외부에서 item을 추가시킬 함수입니다.
         listData.add(data);
     }
+//    void changeItem(Person data, TextView view1,TextView view2){
+//        for(int i = 0; i < listData.size(); i ++) {
+//            if((listData.get(i).getName() == view1.getText()) ||(listData.get(i).getName() == view2.getText())){
+//                    listData.set(i,data);
+//            }
+//        }
+//    }
 
 }

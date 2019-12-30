@@ -1,33 +1,50 @@
 package com.example.tabapplication;
 
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.ListView;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.TabHost;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.tabapplication.adapters.BookmarkAdapter;
+import com.example.tabapplication.models.Bookmark;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TabHost;
-import android.widget.TextView;
-import android.widget.GridView;
-
-import org.json.JSONException;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private Adapter adapter;
+    private EditText et_address;
+    private EditText filename;
+    private Button btn_add;
+    private ListView Iv_bookmark;
 
     private int[] imageIDs = new int[] {
             R.drawable.ball,
@@ -51,12 +68,33 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.tulip,
             R.drawable.whale,
     };
-
+    private String[] fileNames = new String[]{
+            "ball.jpg",
+            "download.jpg",
+            "flower.jpg",
+            "leaf.jpg",
+            "sky.jpg",
+            "snowman.jpg",
+            "apple.jpg",
+            "bonobono.jpg",
+            "bubble.jpg",
+            "flag.jpg",
+            "frog.jpg",
+            "frozen.jpg",
+            "mickey.png",
+            "mouse2020.jpg",
+            "pororo.jpg",
+            "ryan.png",
+            "shoe.jpg",
+            "totoro.jpg",
+            "tulip.jpg",
+            "whale.jpg"
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TabHost tabHost1 = (TabHost) findViewById(R.id.tabHost1);
+        TabHost tabHost1 = findViewById(R.id.tabHost1);
         tabHost1.setup();
 
         // 첫 번째 Tab. (탭 표시 텍스트:"TAB 1"), (페이지 뷰:"tab1")
@@ -76,19 +114,17 @@ public class MainActivity extends AppCompatActivity {
         ts3.setContent(R.id.tab3);
         ts3.setIndicator("TAB 3");
         tabHost1.addTab(ts3);
+
+
+
+
         init();
         String a = getJsonString();
         jsonParsing(a);
 
 
 
-        GridView gridViewImages = (GridView)findViewById(R.id.gridViewImages);
-        ImageGridAdapter imageGridAdapter = new ImageGridAdapter(this, imageIDs);
-        gridViewImages.setAdapter(imageGridAdapter);
-
-
     }
-
 
 
 
@@ -102,9 +138,38 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new Adapter();
         recyclerView.setAdapter(adapter);
-        RecyclerDecoration spaceDecoration = new RecyclerDecoration(70);
+        RecyclerDecoration spaceDecoration = new RecyclerDecoration(150);
         recyclerView.addItemDecoration(spaceDecoration);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), 1));
+
+
+        GridView gridViewImages = findViewById(R.id.gridViewImages);
+        ImageGridAdapter imageGridAdapter = new ImageGridAdapter(this, imageIDs, fileNames);
+        gridViewImages.setAdapter(imageGridAdapter);
+
+        et_address = (EditText) findViewById(R.id.et_address);
+        filename = (EditText) findViewById(R.id.filename);
+        btn_add = (Button) findViewById(R.id.btn_add);
+        Iv_bookmark = (ListView) findViewById(R.id.Iv_bookmark);
+
+        final BookmarkAdapter bookmarkAdapter = new BookmarkAdapter(this, imageIDs, fileNames);
+        Iv_bookmark.setAdapter(bookmarkAdapter);
+
+        btn_add.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                final String address = et_address.getText().toString();
+                final String file = filename.getText().toString();
+                Bookmark bookmark = new Bookmark(address,file);
+                if(bookmarkAdapter.hasDuplicate(bookmark)) {
+                    Toast.makeText(MainActivity.this, getString(R.string.duplicate), Toast.LENGTH_SHORT).show();
+                } else {
+                    bookmarkAdapter.addBookmark(bookmark);
+                    Toast.makeText(MainActivity.this, getString(R.string.complete), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
     private String getJsonString()
     {
@@ -148,7 +213,71 @@ public class MainActivity extends AppCompatActivity {
         }
         adapter.notifyDataSetChanged();
     }
+    public void OnClickHandler(View view)
+    {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog, null);
+        final EditText nameEditText = dialogView.findViewById(R.id.name);
+        final EditText NicknameEditText = dialogView.findViewById(R.id.nickname);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int pos)
+            {
+                Person person = new Person();
+                person.setName(nameEditText.getText().toString());
+                person.setTel(NicknameEditText.getText().toString());
+                adapter.addItem(person);
+                String name = "이름 : " + nameEditText.getText().toString();
+                String nickname = "전화번호 : " + NicknameEditText.getText().toString();
+
+                Toast.makeText(getApplicationContext(),name + "\n" + nickname, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        adapter.notifyDataSetChanged();
+    }
+
+
+
+
+
+
+
+
+//    public void OnClickHandler2(View view)
+//    {
+////        final TextView a = findViewById(R.id.name_id);
+////        final TextView b = findViewById(R.id.tel_id);
+//        View dialogView = getLayoutInflater().inflate(R.layout.dialog, null);
+//        final EditText nameEditText = dialogView.findViewById(R.id.name);
+//        final EditText NicknameEditText = dialogView.findViewById(R.id.nickname);
+////        nameEditText.setText(a.getText());
+////        NicknameEditText.setText(b.getText());
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setView(dialogView);
+//
+//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+//            public void onClick(DialogInterface dialog, int pos)
+//            {
+//                Person person = new Person();
+//                person.setName(nameEditText.getText().toString());
+//                person.setTel(NicknameEditText.getText().toString());
+////                adapter.changeItem(person,a,b);
+//                String name = "이름 : " + nameEditText.getText().toString();
+//                String nickname = "전화번호 : " + NicknameEditText.getText().toString();
+//
+//                Toast.makeText(getApplicationContext(),name + "\n" + nickname, Toast.LENGTH_LONG).show();
+//            }
+//        });
+//
+//        AlertDialog alertDialog = builder.create();
+//        alertDialog.show();
+//        adapter.notifyDataSetChanged();
+//    }
 
 
 

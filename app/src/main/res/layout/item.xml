@@ -5,9 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
+        android:id="@+id/linear"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:onClick="OnClickHandler2"
         android:orientation="vertical"
         android:gravity="center_vertical">
         <TextView
@@ -26,7 +28,7 @@
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
             android:id="@+id/tel_id"
-            android:textSize="18dp"
+            android:textSize="50dp"
             android:textColor="#666666"
             android:fontFamily="@font/gothicl"
             app:layout_constraintLeft_toRightOf="@id/name_id"

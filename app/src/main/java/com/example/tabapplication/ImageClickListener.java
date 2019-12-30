@@ -17,10 +17,12 @@ public class ImageClickListener implements OnClickListener {
     // imageID는 확대해서 보여줄 이미지의 리소스 ID입니다.
 
     int imageID;
+    String filename;
 
-    public ImageClickListener(Context context, int imageID) {
+    public ImageClickListener(Context context, int imageID, String filename) {
         this.context = context;
         this.imageID = imageID;
+        this.filename = filename;
     }
 
 
@@ -33,6 +35,7 @@ public class ImageClickListener implements OnClickListener {
 
         Intent intent = new Intent(context, ImageActivity.class);
         intent.putExtra("image ID", imageID);
+        intent.putExtra("file name", filename);
         context.startActivity(intent);
     }
 }

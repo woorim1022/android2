@@ -1,7 +1,7 @@
 package com.example.tabapplication;
 public class Person {
-    private String name1;
-    private String tel1;
+    private String name1 = null;
+    private String tel1 = null;
 
     public String getName() {
         return name1;
