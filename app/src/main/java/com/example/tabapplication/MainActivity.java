@@ -1,9 +1,13 @@
 package com.example.tabapplication;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.AdapterView;
@@ -39,6 +43,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText filename;
     private Button btn_add;
     private ListView Iv_bookmark;
+
     private int[] imageIDs = new int[] {
             R.drawable.ball, R.drawable.download, R.drawable.flower, R.drawable.leaf, R.drawable.sky, R.drawable.snowman, R.drawable.apple, R.drawable.bonobono, R.drawable.bubble, R.drawable.flag, R.drawable.frog, R.drawable.frozen, R.drawable.mickey, R.drawable.mouse2020, R.drawable.pororo, R.drawable.ryan, R.drawable.shoe, R.drawable.totoro, R.drawable.tulip, R.drawable.whale,
     };
@@ -115,12 +121,25 @@ public class MainActivity extends AppCompatActivity {
 
         final BookmarkAdapter bookmarkAdapter = new BookmarkAdapter(this, imageIDs, fileNames);
         Iv_bookmark.setAdapter(bookmarkAdapter);
+        SharedPreferences pref=getSharedPreferences("MYPREFERENCE", Activity.MODE_PRIVATE);
+        String data = pref.getString("1","");
 
+
+
+        final ArrayList<Bookmark> mList = jsonParsingArray(bookmarkAdapter, data);
         btn_add.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 final String address = et_address.getText().toString();
                 final String file = filename.getText().toString();
+                Bookmark mBook = new Bookmark(address,file);
+                mList.add(mBook);
+                //데이타 저장
+                SharedPreferences sharedPreference = getSharedPreferences("MYPREFERENCE", Context.MODE_MULTI_PROCESS | Context.MODE_PRIVATE);
+                setBookmarkArrayPref(sharedPreference, "1", mList);
+
+
+
                 Bookmark bookmark = new Bookmark(address,file);
                 if(bookmarkAdapter.hasDuplicate(bookmark)) {
                     Toast.makeText(MainActivity.this, getString(R.string.duplicate), Toast.LENGTH_SHORT).show();
@@ -192,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
                 adapter.addItem(person);
                 String name = "이름 : " + nameEditText.getText().toString();
                 String nickname = "전화번호 : " + NicknameEditText.getText().toString();
+
                 Toast.makeText(getApplicationContext(),name + "\n" + nickname, Toast.LENGTH_LONG).show();
             }
         });
@@ -200,6 +220,44 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
         adapter.notifyDataSetChanged();
     }
+    private void setBookmarkArrayPref( SharedPreferences pref, String key, ArrayList<Bookmark> values) {
+        SharedPreferences.Editor editor = pref.edit();
+        JSONArray address = new JSONArray();
+        JSONArray file = new JSONArray();
+        JSONArray result = new JSONArray();
+        for (int i = 0; i < values.size(); i++) {
+            address.put(values.get(i).getAddres());
+            file.put(values.get(i).getFile());
+
+        }
+        result.put(address);
+        result.put(file);
+        if (!values.isEmpty()) {
+            editor.putString(key, result.toString());
+        } else {
+            editor.putString(key, null);
+        }
+        editor.apply();
+    }
+
+    private ArrayList<Bookmark> jsonParsingArray(BookmarkAdapter bookmarkAdapter, String json) {
+        ArrayList<Bookmark> mList = new ArrayList<>();
+        try {
+            JSONArray mArray = new JSONArray(json);
+            JSONArray address = mArray.getJSONArray(0);
+            JSONArray file = mArray.getJSONArray(1);
+            for (int i = 0; i < address.length(); i++) {
+                Bookmark bb = new Bookmark(address.getString(i), file.getString(i));
+                bookmarkAdapter.addBookmark(bb);
+                mList.add(bb);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        bookmarkAdapter.notifyDataSetChanged();
+        return mList;
+    }
+
 
 //    public void OnClickHandler2(View view)
 //    {
