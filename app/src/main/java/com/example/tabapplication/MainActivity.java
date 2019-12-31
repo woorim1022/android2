@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tabapplication.adapters.BookmarkAdapter;
+import com.example.tabapplication.adapters.ViewpageAdapter;
 import com.example.tabapplication.models.Bookmark;
 
 import androidx.appcompat.app.AlertDialog;
@@ -28,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,51 +47,13 @@ public class MainActivity extends AppCompatActivity {
     private EditText filename;
     private Button btn_add;
     private ListView Iv_bookmark;
-
     private int[] imageIDs = new int[] {
-            R.drawable.ball,
-            R.drawable.download,
-            R.drawable.flower,
-            R.drawable.leaf,
-            R.drawable.sky,
-            R.drawable.snowman,
-            R.drawable.apple,
-            R.drawable.bonobono,
-            R.drawable.bubble,
-            R.drawable.flag,
-            R.drawable.frog,
-            R.drawable.frozen,
-            R.drawable.mickey,
-            R.drawable.mouse2020,
-            R.drawable.pororo,
-            R.drawable.ryan,
-            R.drawable.shoe,
-            R.drawable.totoro,
-            R.drawable.tulip,
-            R.drawable.whale,
+            R.drawable.ball, R.drawable.download, R.drawable.flower, R.drawable.leaf, R.drawable.sky, R.drawable.snowman, R.drawable.apple, R.drawable.bonobono, R.drawable.bubble, R.drawable.flag, R.drawable.frog, R.drawable.frozen, R.drawable.mickey, R.drawable.mouse2020, R.drawable.pororo, R.drawable.ryan, R.drawable.shoe, R.drawable.totoro, R.drawable.tulip, R.drawable.whale,
     };
     private String[] fileNames = new String[]{
-            "ball.jpg",
-            "download.jpg",
-            "flower.jpg",
-            "leaf.jpg",
-            "sky.jpg",
-            "snowman.jpg",
-            "apple.jpg",
-            "bonobono.jpg",
-            "bubble.jpg",
-            "flag.jpg",
-            "frog.jpg",
-            "frozen.jpg",
-            "mickey.png",
-            "mouse2020.jpg",
-            "pororo.jpg",
-            "ryan.png",
-            "shoe.jpg",
-            "totoro.jpg",
-            "tulip.jpg",
-            "whale.jpg"
+            "ball.jpg", "download.jpg", "flower.jpg", "leaf.jpg", "sky.jpg", "snowman.jpg", "apple.jpg", "bonobono.jpg", "bubble.jpg", "flag.jpg", "frog.jpg", "frozen.jpg", "mickey.png", "mouse2020.jpg", "pororo.jpg", "ryan.png", "shoe.jpg", "totoro.jpg", "tulip.jpg", "whale.jpg"
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,9 +79,6 @@ public class MainActivity extends AppCompatActivity {
         ts3.setIndicator("TAB 3");
         tabHost1.addTab(ts3);
 
-
-
-
         init();
         String a = getJsonString();
         jsonParsing(a);
@@ -125,10 +86,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
-
-
 
     private void init() {
         RecyclerView recyclerView = findViewById(R.id.recycler1);
@@ -231,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
                 adapter.addItem(person);
                 String name = "이름 : " + nameEditText.getText().toString();
                 String nickname = "전화번호 : " + NicknameEditText.getText().toString();
-
                 Toast.makeText(getApplicationContext(),name + "\n" + nickname, Toast.LENGTH_LONG).show();
             }
         });
@@ -240,13 +196,6 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
         adapter.notifyDataSetChanged();
     }
-
-
-
-
-
-
-
 
 //    public void OnClickHandler2(View view)
 //    {
@@ -278,9 +227,6 @@ public class MainActivity extends AppCompatActivity {
 //        alertDialog.show();
 //        adapter.notifyDataSetChanged();
 //    }
-
-
-
 }
 
 

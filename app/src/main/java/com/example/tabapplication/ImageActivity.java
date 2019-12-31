@@ -6,24 +6,35 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.viewpager.widget.ViewPager;
+
+import com.example.tabapplication.adapters.ViewpageAdapter;
+
 
 public class ImageActivity extends Activity {
 
-
+    ViewpageAdapter adapter;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.row);
+        Intent receivedIntent = getIntent();
 
         //----------------------------------------------------------------
         // 확대되는 이미지를 보여주기 위해 ImageView 뷰를 설정합니다.
         ImageView imageView = (ImageView)findViewById(R.id.imageView);
         TextView textView = (TextView)findViewById(R.id.textView);
-        setImage(imageView);
-        setText(textView);
-    }
+        //setImage(imageView);
+        //setText(textView);
+        int imageID = (Integer)receivedIntent.getExtras().get("image ID");
+        String filename = (String)receivedIntent.getExtras().get("file name");
 
+        viewPager = (ViewPager) findViewById(R.id.view);
+        adapter = new ViewpageAdapter(this, imageView, textView, imageID, filename);
+        viewPager.setAdapter(adapter);
+    }
     private void setImage(ImageView imageView) {
         //----------------------------------------------------------------
         // 초기 액티비티의 GridView 뷰의 이미지 항목을 클릭할 때 생성된 인텐트는
@@ -33,8 +44,8 @@ public class ImageActivity extends Activity {
         //----------------------------------------------------------------
         // 확대되는 이미지의 리소스 ID를 인텐트로부터 읽어들이고,
         // 그것을 ImageView 뷰의 이미지 리소스로 설정합니다.
-
         int imageID = (Integer)receivedIntent.getExtras().get("image ID");
+
         imageView.setImageResource(imageID);
     }
     private void setText(TextView textView) {
