@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tabapplication.adapters.BookmarkAdapter;
+import com.example.tabapplication.adapters.ViewpageAdapter;
 import com.example.tabapplication.models.Bookmark;
 
 import androidx.appcompat.app.AlertDialog;
@@ -32,6 +34,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,76 +55,39 @@ public class MainActivity extends AppCompatActivity {
     private ListView Iv_bookmark;
 
     private int[] imageIDs = new int[] {
-            R.drawable.ball,
-            R.drawable.download,
-            R.drawable.flower,
-            R.drawable.leaf,
-            R.drawable.sky,
-            R.drawable.snowman,
-            R.drawable.apple,
-            R.drawable.bonobono,
-            R.drawable.bubble,
-            R.drawable.flag,
-            R.drawable.frog,
-            R.drawable.frozen,
-            R.drawable.mickey,
-            R.drawable.mouse2020,
-            R.drawable.pororo,
-            R.drawable.ryan,
-            R.drawable.shoe,
-            R.drawable.totoro,
-            R.drawable.tulip,
-            R.drawable.whale,
+            R.drawable.ball, R.drawable.download, R.drawable.flower, R.drawable.leaf, R.drawable.sky, R.drawable.snowman, R.drawable.apple, R.drawable.bonobono, R.drawable.bubble, R.drawable.flag, R.drawable.frog, R.drawable.frozen, R.drawable.mickey, R.drawable.mouse2020, R.drawable.pororo, R.drawable.ryan, R.drawable.shoe, R.drawable.totoro, R.drawable.tulip, R.drawable.whale,
     };
     private String[] fileNames = new String[]{
-            "ball.jpg",
-            "download.jpg",
-            "flower.jpg",
-            "leaf.jpg",
-            "sky.jpg",
-            "snowman.jpg",
-            "apple.jpg",
-            "bonobono.jpg",
-            "bubble.jpg",
-            "flag.jpg",
-            "frog.jpg",
-            "frozen.jpg",
-            "mickey.png",
-            "mouse2020.jpg",
-            "pororo.jpg",
-            "ryan.png",
-            "shoe.jpg",
-            "totoro.jpg",
-            "tulip.jpg",
-            "whale.jpg"
+            "ball.jpg", "download.jpg", "flower.jpg", "leaf.jpg", "sky.jpg", "snowman.jpg", "apple.jpg", "bonobono.jpg", "bubble.jpg", "flag.jpg", "frog.jpg", "frozen.jpg", "mickey.png", "mouse2020.jpg", "pororo.jpg", "ryan.png", "shoe.jpg", "totoro.jpg", "tulip.jpg", "whale.jpg"
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TabHost tabHost1 = findViewById(R.id.tabHost1);
         tabHost1.setup();
+        View tab1View = LayoutInflater.from(MainActivity.this).inflate(R.layout.selector_layout,null);
+        View tab2View = LayoutInflater.from(MainActivity.this).inflate(R.layout.selector2_layout,null);
+        View tab3View = LayoutInflater.from(MainActivity.this).inflate(R.layout.selector3_layout,null);
 
         // 첫 번째 Tab. (탭 표시 텍스트:"TAB 1"), (페이지 뷰:"tab1")
         TabHost.TabSpec ts1 = tabHost1.newTabSpec("Tab Spec 1");
+        ts1.setIndicator(tab1View);
         ts1.setContent(R.id.tab1);
-        ts1.setIndicator("주소록");
         tabHost1.addTab(ts1);
 
         // 두 번째 Tab. (탭 표시 텍스트:"TAB 2"), (페이지 뷰:"tab2")
         TabHost.TabSpec ts2 = tabHost1.newTabSpec("Tab Spec 2");
+        ts2.setIndicator(tab2View);
         ts2.setContent(R.id.tab2);
-        ts2.setIndicator("갤러리");
         tabHost1.addTab(ts2);
 
         // 세 번째 Tab. (탭 표시 텍스트:"TAB 3"), (페이지 뷰:"tab3")
         TabHost.TabSpec ts3 = tabHost1.newTabSpec("Tab Spec 3");
+        ts3.setIndicator(tab3View);
         ts3.setContent(R.id.tab3);
-        ts3.setIndicator("즐겨찾기");
         tabHost1.addTab(ts3);
-
-
-
 
         init();
         String a = getJsonString();
@@ -130,10 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
-
-
 
     private void init() {
         RecyclerView recyclerView = findViewById(R.id.recycler1);
@@ -297,7 +259,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+//    public void OnClickHandler2(View view)
+//    {
+////        final TextView a = findViewById(R.id.name_id);
+////        final TextView b = findViewById(R.id.tel_id);
+//        View dialogView = getLayoutInflater().inflate(R.layout.dialog, null);
+//        final EditText nameEditText = dialogView.findViewById(R.id.name);
+//        final EditText NicknameEditText = dialogView.findViewById(R.id.nickname);
+////        nameEditText.setText(a.getText());
+////        NicknameEditText.setText(b.getText());
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setView(dialogView);
+//
+//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+//            public void onClick(DialogInterface dialog, int pos)
+//            {
+//                Person person = new Person();
+//                person.setName(nameEditText.getText().toString());
+//                person.setTel(NicknameEditText.getText().toString());
+////                adapter.changeItem(person,a,b);
+//                String name = "이름 : " + nameEditText.getText().toString();
+//                String nickname = "전화번호 : " + NicknameEditText.getText().toString();
+//
+//                Toast.makeText(getApplicationContext(),name + "\n" + nickname, Toast.LENGTH_LONG).show();
+//            }
+//        });
+//
+//        AlertDialog alertDialog = builder.create();
+//        alertDialog.show();
+//        adapter.notifyDataSetChanged();
+//    }
 }
 
 
