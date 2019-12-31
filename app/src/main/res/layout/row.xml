@@ -5,17 +5,11 @@
     android:orientation="vertical" >
 
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="431dp" />
 
-    <TextView
-        android:id="@+id/textView"
+    <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
-        android:layout_height="166dp"
-        android:textSize="50dp"
-        android:text="TextView"
-        android:gravity="center_horizontal|center_vertical" />
+        android:layout_height="match_parent"
+        android:id="@+id/view"/>
+
 
 </LinearLayout>

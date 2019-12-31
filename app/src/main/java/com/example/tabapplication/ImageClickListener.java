@@ -8,25 +8,16 @@ import android.view.View.OnClickListener;
 
 
 public class ImageClickListener implements OnClickListener {
-
-
-
     Context context;
-
     //-----------------------------------------------------------
     // imageID는 확대해서 보여줄 이미지의 리소스 ID입니다.
-
     int imageID;
     String filename;
-
     public ImageClickListener(Context context, int imageID, String filename) {
         this.context = context;
         this.imageID = imageID;
         this.filename = filename;
     }
-
-
-
     public void onClick(View v) {
         //---------------------------------------------------------
         // 확대된 이미지를 보여주는 액티비티를 실행하기 위해 인텐트 객체를 정의합니다.
