@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,22 +61,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         TabHost tabHost1 = findViewById(R.id.tabHost1);
         tabHost1.setup();
+        View tab1View = LayoutInflater.from(MainActivity.this).inflate(R.layout.selector_layout,null);
+        View tab2View = LayoutInflater.from(MainActivity.this).inflate(R.layout.selector2_layout,null);
+        View tab3View = LayoutInflater.from(MainActivity.this).inflate(R.layout.selector3_layout,null);
 
         // 첫 번째 Tab. (탭 표시 텍스트:"TAB 1"), (페이지 뷰:"tab1")
         TabHost.TabSpec ts1 = tabHost1.newTabSpec("Tab Spec 1");
-        ts1.setIndicator("주소록");
+        ts1.setIndicator(tab1View);
         ts1.setContent(R.id.tab1);
         tabHost1.addTab(ts1);
 
         // 두 번째 Tab. (탭 표시 텍스트:"TAB 2"), (페이지 뷰:"tab2")
         TabHost.TabSpec ts2 = tabHost1.newTabSpec("Tab Spec 2");
-        ts2.setIndicator("갤러리");
+        ts2.setIndicator(tab2View);
         ts2.setContent(R.id.tab2);
         tabHost1.addTab(ts2);
 
         // 세 번째 Tab. (탭 표시 텍스트:"TAB 3"), (페이지 뷰:"tab3")
         TabHost.TabSpec ts3 = tabHost1.newTabSpec("Tab Spec 3");
-        ts3.setIndicator("즐겨찾기");
+        ts3.setIndicator(tab3View);
         ts3.setContent(R.id.tab3);
         tabHost1.addTab(ts3);
 
