@@ -50,8 +50,14 @@ public class ViewpageAdapter extends PagerAdapter {
         View v = inflater.inflate(R.layout.page, container, false);
         ImageView imageView = (ImageView)v.findViewById(R.id.imageView);
         TextView textView = (TextView)v.findViewById(R.id.textView);
-        imageView.setImageResource(imageID);
-        textView.setText(fileName);
+        int num = 0;
+        for(int i = 0; i < fileNames.length; i++) {
+            if (fileName.equals(fileNames[i])) {
+                num = i;
+            }
+        }
+        imageView.setImageResource(imageIDs[position + num]);
+        textView.setText(fileNames[position + num]);
         container.addView(v);
         return v;
     }
