@@ -1,9 +1,13 @@
 package com.example.tabapplication;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -36,6 +40,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,19 +105,19 @@ public class MainActivity extends AppCompatActivity {
         // 첫 번째 Tab. (탭 표시 텍스트:"TAB 1"), (페이지 뷰:"tab1")
         TabHost.TabSpec ts1 = tabHost1.newTabSpec("Tab Spec 1");
         ts1.setContent(R.id.tab1);
-        ts1.setIndicator("TAB 1");
+        ts1.setIndicator("주소록");
         tabHost1.addTab(ts1);
 
         // 두 번째 Tab. (탭 표시 텍스트:"TAB 2"), (페이지 뷰:"tab2")
         TabHost.TabSpec ts2 = tabHost1.newTabSpec("Tab Spec 2");
         ts2.setContent(R.id.tab2);
-        ts2.setIndicator("TAB 2");
+        ts2.setIndicator("갤러리");
         tabHost1.addTab(ts2);
 
         // 세 번째 Tab. (탭 표시 텍스트:"TAB 3"), (페이지 뷰:"tab3")
         TabHost.TabSpec ts3 = tabHost1.newTabSpec("Tab Spec 3");
         ts3.setContent(R.id.tab3);
-        ts3.setIndicator("TAB 3");
+        ts3.setIndicator("즐겨찾기");
         tabHost1.addTab(ts3);
 
 
@@ -154,12 +159,25 @@ public class MainActivity extends AppCompatActivity {
 
         final BookmarkAdapter bookmarkAdapter = new BookmarkAdapter(this, imageIDs, fileNames);
         Iv_bookmark.setAdapter(bookmarkAdapter);
+        SharedPreferences pref=getSharedPreferences("MYPREFERENCE", Activity.MODE_PRIVATE);
+        String data = pref.getString("1","");
 
+
+
+        final ArrayList<Bookmark> mList = jsonParsingArray(bookmarkAdapter, data);
         btn_add.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 final String address = et_address.getText().toString();
                 final String file = filename.getText().toString();
+                Bookmark mBook = new Bookmark(address,file);
+                mList.add(mBook);
+                //데이타 저장
+                SharedPreferences sharedPreference = getSharedPreferences("MYPREFERENCE", Context.MODE_MULTI_PROCESS | Context.MODE_PRIVATE);
+                setBookmarkArrayPref(sharedPreference, "1", mList);
+
+
+
                 Bookmark bookmark = new Bookmark(address,file);
                 if(bookmarkAdapter.hasDuplicate(bookmark)) {
                     Toast.makeText(MainActivity.this, getString(R.string.duplicate), Toast.LENGTH_SHORT).show();
@@ -240,44 +258,43 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
         adapter.notifyDataSetChanged();
     }
+    private void setBookmarkArrayPref( SharedPreferences pref, String key, ArrayList<Bookmark> values) {
+        SharedPreferences.Editor editor = pref.edit();
+        JSONArray address = new JSONArray();
+        JSONArray file = new JSONArray();
+        JSONArray result = new JSONArray();
+        for (int i = 0; i < values.size(); i++) {
+            address.put(values.get(i).getAddres());
+            file.put(values.get(i).getFile());
 
+        }
+        result.put(address);
+        result.put(file);
+        if (!values.isEmpty()) {
+            editor.putString(key, result.toString());
+        } else {
+            editor.putString(key, null);
+        }
+        editor.apply();
+    }
 
-
-
-
-
-
-
-//    public void OnClickHandler2(View view)
-//    {
-////        final TextView a = findViewById(R.id.name_id);
-////        final TextView b = findViewById(R.id.tel_id);
-//        View dialogView = getLayoutInflater().inflate(R.layout.dialog, null);
-//        final EditText nameEditText = dialogView.findViewById(R.id.name);
-//        final EditText NicknameEditText = dialogView.findViewById(R.id.nickname);
-////        nameEditText.setText(a.getText());
-////        NicknameEditText.setText(b.getText());
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setView(dialogView);
-//
-//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-//            public void onClick(DialogInterface dialog, int pos)
-//            {
-//                Person person = new Person();
-//                person.setName(nameEditText.getText().toString());
-//                person.setTel(NicknameEditText.getText().toString());
-////                adapter.changeItem(person,a,b);
-//                String name = "이름 : " + nameEditText.getText().toString();
-//                String nickname = "전화번호 : " + NicknameEditText.getText().toString();
-//
-//                Toast.makeText(getApplicationContext(),name + "\n" + nickname, Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//        AlertDialog alertDialog = builder.create();
-//        alertDialog.show();
-//        adapter.notifyDataSetChanged();
-//    }
+    private ArrayList<Bookmark> jsonParsingArray(BookmarkAdapter bookmarkAdapter, String json) {
+        ArrayList<Bookmark> mList = new ArrayList<>();
+        try {
+            JSONArray mArray = new JSONArray(json);
+            JSONArray address = mArray.getJSONArray(0);
+            JSONArray file = mArray.getJSONArray(1);
+            for (int i = 0; i < address.length(); i++) {
+                Bookmark bb = new Bookmark(address.getString(i), file.getString(i));
+                bookmarkAdapter.addBookmark(bb);
+                mList.add(bb);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        bookmarkAdapter.notifyDataSetChanged();
+        return mList;
+    }
 
 
 
