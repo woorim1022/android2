@@ -44,8 +44,8 @@ public class ViewpageAdapter extends PagerAdapter {
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.page, container, false);
-        ImageView imageView = (ImageView)v.findViewById(R.id.imageView);
-        TextView textView = (TextView)v.findViewById(R.id.textView);
+        ImageView imageView = v.findViewById(R.id.imageView);
+        TextView textView = v.findViewById(R.id.textView);
         int num = 0;
         for(int i = 0; i < fileNames.length; i++) {
             if (fileName.equals(fileNames[i])) {

@@ -24,14 +24,12 @@ public class ImageActivity extends Activity {
 
         //----------------------------------------------------------------
         // 확대되는 이미지를 보여주기 위해 ImageView 뷰를 설정합니다.
-        ImageView imageView = (ImageView)findViewById(R.id.imageView);
-        TextView textView = (TextView)findViewById(R.id.textView);
-        //setImage(imageView);
-        //setText(textView);
+        ImageView imageView = findViewById(R.id.imageView);
+        TextView textView = findViewById(R.id.textView);
         int imageID = (Integer)receivedIntent.getExtras().get("image ID");
         String filename = (String)receivedIntent.getExtras().get("file name");
 
-        viewPager = (ViewPager) findViewById(R.id.view);
+        viewPager = findViewById(R.id.view);
         adapter = new ViewpageAdapter(this, imageView, textView, imageID, filename);
         viewPager.setAdapter(adapter);
     }

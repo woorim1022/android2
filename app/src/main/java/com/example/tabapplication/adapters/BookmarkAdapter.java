@@ -3,18 +3,13 @@ package com.example.tabapplication.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-import com.example.tabapplication.ActivityformapAPI;
 import com.example.tabapplication.ImageActivity;
-import com.example.tabapplication.MainActivity;
 import com.example.tabapplication.R;
 import com.example.tabapplication.models.Bookmark;
 
@@ -25,10 +20,9 @@ public class BookmarkAdapter extends BaseAdapter {
 
     private ArrayList<Bookmark> bookmarks;
 
-    Context context = null;
-    int[] imageIDs = null;
-    String[] filenames = null;
-    ArrayList<Bookmark> mList;
+    Context context;
+    int[] imageIDs;
+    String[] filenames;
 
     public BookmarkAdapter(Context context, int[] imageIDs, String[] filenames) {
         this.context = context;
@@ -37,19 +31,6 @@ public class BookmarkAdapter extends BaseAdapter {
         bookmarks = new ArrayList<>();
     }
 
-    //중복등록 방지 메소드, 북마크 목록에서 동일한 것이 발견되면 true 를 반환하는 메소드
-    public boolean hasDuplicate(Bookmark bookmark1, ArrayList<Bookmark> List) {
-        Bookmark bookmark = bookmark1;
-        mList = List;
-        boolean isDuplicate = false;
-        for(int i = 0; i < mList.size();i++) {
-            Bookmark current = mList.get(i);
-            if ( current.getAddres() == bookmark.getAddres()) {
-                isDuplicate = true;
-            }
-        }
-        return isDuplicate;
-    }
 
     //ArrayList인 bookmarks에 즐겨찾기를 하나씩 추가하는 메소드, bookmark 객체를 받아서 bookmark 에 그대로 추가
     public void addBookmark(Bookmark bookmark) {

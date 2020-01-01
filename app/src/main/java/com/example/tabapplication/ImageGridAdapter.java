@@ -13,12 +13,10 @@ import java.util.ArrayList;
 public class ImageGridAdapter extends BaseAdapter {
 
 
-    Context context = null;
+    Context context;
 
-    int[] imageIDs = null;
-    String[] filenames = null;
-    Bitmap imageID = null;
-    String filename = null;
+    int[] imageIDs;
+    String[] filenames;
     ArrayList<Bitmap> bitmaps = new ArrayList<>();
     public ImageGridAdapter(Context context, int[] imageIDs, String[] filenames) {
         this.context = context;
@@ -38,7 +36,7 @@ public class ImageGridAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView = null;
+        ImageView imageView;
 
         if ( null != convertView)
             imageView = (ImageView)convertView;
@@ -46,7 +44,6 @@ public class ImageGridAdapter extends BaseAdapter {
             //---------------------------------------------------------------
             // GridView 뷰를 구성할 ImageView 뷰의 비트맵을 정의합니다.
             // 그리고 그것의 크기를 320*240으로 줄입니다.
-            // 크기를 줄이는 이유는 메모리 부족 문제를 막을 수 있기 때문입니다.
             Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), imageIDs[position]);
             bmp = Bitmap.createScaledBitmap(bmp, 320, 240, false);
             imageView = new ImageView(context);
@@ -68,6 +65,6 @@ public class ImageGridAdapter extends BaseAdapter {
     }
     public void addImage(Bitmap bmp) {
         bitmaps.add(bmp);
-        notifyDataSetChanged();          //자료가 바뀌면 바뀌는 대로 리스트를 업데이트 하는 기능, 북마크를 추가하면 addBookmark가 실행되고 notify~() 가 실행됨에 따라 새로운 북마크가 리스트에 보임
+        notifyDataSetChanged();
     }
 }

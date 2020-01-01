@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         photo_view.setOnClickListener(new View.OnClickListener(){
-            @Override //이미지 불러오기기(갤러리 접근)
+            @Override //이미지 불러오기(갤러리 접근)
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
@@ -335,34 +335,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-//    public void OnClickHandler2(View view)
-//    {
-////        final TextView a = findViewById(R.id.name_id);
-////        final TextView b = findViewById(R.id.tel_id);
-//        View dialogView = getLayoutInflater().inflate(R.layout.dialog, null);
-//        final EditText nameEditText = dialogView.findViewById(R.id.name);
-//        final EditText NicknameEditText = dialogView.findViewById(R.id.nickname);
-////        nameEditText.setText(a.getText());
-////        NicknameEditText.setText(b.getText());
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setView(dialogView);
-//
-//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-//            public void onClick(DialogInterface dialog, int pos)
-//            {
-//                Person person = new Person();
-//                person.setName(nameEditText.getText().toString());
-//                person.setTel(NicknameEditText.getText().toString());
-////                adapter.changeItem(person,a,b);
-//                String name = "이름 : " + nameEditText.getText().toString();
-//                String nickname = "전화번호 : " + NicknameEditText.getText().toString();
-//
-//                Toast.makeText(getApplicationContext(),name + "\n" + nickname, Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//        AlertDialog alertDialog = builder.create();
-//        alertDialog.show();
-//        adapter.notifyDataSetChanged();
-//    }
 }
