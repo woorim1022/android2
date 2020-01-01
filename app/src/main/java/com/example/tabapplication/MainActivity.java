@@ -3,30 +3,22 @@ package com.example.tabapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.view.ContextMenu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.TabHost;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tabapplication.adapters.BookmarkAdapter;
-import com.example.tabapplication.adapters.ViewpageAdapter;
 import com.example.tabapplication.models.Bookmark;
 
 import androidx.appcompat.app.AlertDialog;
@@ -34,18 +26,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private Adapter adapter;
@@ -53,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText filename;
     private Button btn_add;
     private ListView Iv_bookmark;
-    private Button btn_remove;
+    private ImageView photo_view;
 
     private int[] imageIDs = new int[] {
             R.drawable.ball, R.drawable.download, R.drawable.flower, R.drawable.leaf, R.drawable.sky, R.drawable.snowman, R.drawable.apple, R.drawable.bonobono, R.drawable.bubble, R.drawable.flag, R.drawable.frog, R.drawable.frozen, R.drawable.mickey, R.drawable.mouse2020, R.drawable.pororo, R.drawable.ryan, R.drawable.shoe, R.drawable.totoro, R.drawable.tulip, R.drawable.whale,
@@ -94,9 +82,8 @@ public class MainActivity extends AppCompatActivity {
         String a = getJsonString();
         jsonParsing(a);
 
-
-
     }
+
 
     private void init() {
         RecyclerView recyclerView = findViewById(R.id.recycler1);
@@ -106,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new Adapter();
         recyclerView.setAdapter(adapter);
-        RecyclerDecoration spaceDecoration = new RecyclerDecoration(150);
+        RecyclerDecoration spaceDecoration = new RecyclerDecoration(110);
         recyclerView.addItemDecoration(spaceDecoration);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), 1));
 
@@ -119,6 +106,10 @@ public class MainActivity extends AppCompatActivity {
         filename = (EditText) findViewById(R.id.filename);
         btn_add = (Button) findViewById(R.id.btn_add);
         Iv_bookmark = (ListView) findViewById(R.id.Iv_bookmark);
+        photo_view = (ImageView) findViewById(R.id.photo_view);
+
+
+
         final BookmarkAdapter bookmarkAdapter = new BookmarkAdapter(this, imageIDs, fileNames);
         Iv_bookmark.setAdapter(bookmarkAdapter);
         SharedPreferences pref=getSharedPreferences("MYPREFERENCE", Activity.MODE_PRIVATE);
@@ -127,60 +118,38 @@ public class MainActivity extends AppCompatActivity {
 
 
         final ArrayList<Bookmark> mList = jsonParsingArray(bookmarkAdapter, data);
+
         btn_add.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 final String address = et_address.getText().toString();
                 final String file = filename.getText().toString();
                 Bookmark mBook = new Bookmark(address,file);
-                mList.add(mBook);
                 //데이타 저장
                 SharedPreferences sharedPreference = getSharedPreferences("MYPREFERENCE", Context.MODE_MULTI_PROCESS | Context.MODE_PRIVATE);
                 setBookmarkArrayPref(sharedPreference, "1", mList);
-
-
-
-                Bookmark bookmark = new Bookmark(address,file);
-                if(bookmarkAdapter.hasDuplicate(bookmark)) {
+                if(bookmarkAdapter.hasDuplicate(mBook, mList)) {
                     Toast.makeText(MainActivity.this, getString(R.string.duplicate), Toast.LENGTH_SHORT).show();
                 } else {
-                    bookmarkAdapter.addBookmark(bookmark);
+                    bookmarkAdapter.addBookmark(mBook);
                     Toast.makeText(MainActivity.this, getString(R.string.complete), Toast.LENGTH_SHORT).show();
                 }
+                mList.add(mBook);
             }
         });
-//        btn_remove.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                SharedPreferences pref=getSharedPreferences("MYPREFERENCE", Activity.MODE_PRIVATE);
-//                String old = pref.getString("1","");
-//                ArrayList<Bookmark> mList = jsonParsingArray(bookmarkAdapter, old);
-//                mList.remove()
-//            }
-//        });
 
-
-
+        photo_view.setOnClickListener(new View.OnClickListener(){
+            @Override //이미지 불러오기기(갤러리 접근)
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+                startActivityForResult(intent, 3);
+            }
+        });
 
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     private String getJsonString()
@@ -204,8 +173,6 @@ public class MainActivity extends AppCompatActivity {
 
         return json;
     }
-
-
     private void jsonParsing(String json)
     {
         try{
@@ -262,7 +229,6 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < values.size(); i++) {
             address.put(values.get(i).getAddres());
             file.put(values.get(i).getFile());
-
         }
         result.put(address);
         result.put(file);
@@ -288,10 +254,36 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        bookmarkAdapter.notifyDataSetChanged();
         return mList;
     }
 
 
+    @Override //갤러리에서 이미지 불러온 후 행동
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == 3) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                try {
+                    // 선택한 이미지에서 비트맵 생성
+                    InputStream in = getContentResolver().openInputStream(data.getData());
+                    Bitmap img = BitmapFactory.decodeStream(in);
+                    in.close();
+                    // 이미지뷰에 세팅
+                    GridView gridViewImages = findViewById(R.id.gridViewImages);
+                    ImageGridAdapter imageGridAdapter = new ImageGridAdapter(this, imageIDs, fileNames);
+
+                    gridViewImages.setAdapter(imageGridAdapter);
+
+                    imageGridAdapter.addImage(img);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 //    public void OnClickHandler2(View view)
 //    {
 ////        final TextView a = findViewById(R.id.name_id);
@@ -323,7 +315,3 @@ public class MainActivity extends AppCompatActivity {
 //        adapter.notifyDataSetChanged();
 //    }
 }
-
-
-
-

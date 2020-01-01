@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 public class ImageGridAdapter extends BaseAdapter {
 
 
@@ -15,7 +17,9 @@ public class ImageGridAdapter extends BaseAdapter {
 
     int[] imageIDs = null;
     String[] filenames = null;
-
+    Bitmap imageID = null;
+    String filename = null;
+    ArrayList<Bitmap> bitmaps = new ArrayList<>();
     public ImageGridAdapter(Context context, int[] imageIDs, String[] filenames) {
         this.context = context;
         this.imageIDs = imageIDs;
@@ -38,20 +42,21 @@ public class ImageGridAdapter extends BaseAdapter {
 
         if ( null != convertView)
             imageView = (ImageView)convertView;
-        else{
+        else {
             //---------------------------------------------------------------
             // GridView 뷰를 구성할 ImageView 뷰의 비트맵을 정의합니다.
             // 그리고 그것의 크기를 320*240으로 줄입니다.
             // 크기를 줄이는 이유는 메모리 부족 문제를 막을 수 있기 때문입니다.
             Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), imageIDs[position]);
             bmp = Bitmap.createScaledBitmap(bmp, 320, 240, false);
+            imageView = new ImageView(context);
+            imageView.setAdjustViewBounds(true);
+            bitmaps.add(bmp);
 
+            imageView.setImageBitmap(bitmaps.get(position));
             //---------------------------------------------------------------
             // GridView 뷰를 구성할 ImageView 뷰들을 정의합니다.
             // 뷰에 지정할 이미지는 앞에서 정의한 비트맵 객체입니다.
-            imageView = new ImageView(context);
-            imageView.setAdjustViewBounds(true);
-            imageView.setImageBitmap(bmp);
 
             //---------------------------------------------------------------
             // 사진 항목들의 클릭을 처리하는 ImageClickListener 객체를 정의합니다.
@@ -60,5 +65,9 @@ public class ImageGridAdapter extends BaseAdapter {
             imageView.setOnClickListener(imageViewClickListener);
         }
         return imageView;
+    }
+    public void addImage(Bitmap bmp) {
+        bitmaps.add(bmp);
+        notifyDataSetChanged();          //자료가 바뀌면 바뀌는 대로 리스트를 업데이트 하는 기능, 북마크를 추가하면 addBookmark가 실행되고 notify~() 가 실행됨에 따라 새로운 북마크가 리스트에 보임
     }
 }
