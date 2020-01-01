@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText filename;
     private Button btn_add;
     private ListView Iv_bookmark;
+    private Button btn_remove;
 
     private int[] imageIDs = new int[] {
             R.drawable.ball, R.drawable.download, R.drawable.flower, R.drawable.leaf, R.drawable.sky, R.drawable.snowman, R.drawable.apple, R.drawable.bonobono, R.drawable.bubble, R.drawable.flag, R.drawable.frog, R.drawable.frozen, R.drawable.mickey, R.drawable.mouse2020, R.drawable.pororo, R.drawable.ryan, R.drawable.shoe, R.drawable.totoro, R.drawable.tulip, R.drawable.whale,
@@ -118,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
         filename = (EditText) findViewById(R.id.filename);
         btn_add = (Button) findViewById(R.id.btn_add);
         Iv_bookmark = (ListView) findViewById(R.id.Iv_bookmark);
-
         final BookmarkAdapter bookmarkAdapter = new BookmarkAdapter(this, imageIDs, fileNames);
         Iv_bookmark.setAdapter(bookmarkAdapter);
         SharedPreferences pref=getSharedPreferences("MYPREFERENCE", Activity.MODE_PRIVATE);
@@ -149,8 +149,40 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+//        btn_remove.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                SharedPreferences pref=getSharedPreferences("MYPREFERENCE", Activity.MODE_PRIVATE);
+//                String old = pref.getString("1","");
+//                ArrayList<Bookmark> mList = jsonParsingArray(bookmarkAdapter, old);
+//                mList.remove()
+//            }
+//        });
+
+
+
+
+
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private String getJsonString()
     {
         String json = "";
@@ -172,6 +204,8 @@ public class MainActivity extends AppCompatActivity {
 
         return json;
     }
+
+
     private void jsonParsing(String json)
     {
         try{
@@ -254,7 +288,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        bookmarkAdapter.notifyDataSetChanged();
         return mList;
     }
 

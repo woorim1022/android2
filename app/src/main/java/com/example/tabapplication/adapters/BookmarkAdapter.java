@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.tabapplication.ActivityformapAPI;
 import com.example.tabapplication.ImageActivity;
+import com.example.tabapplication.MainActivity;
 import com.example.tabapplication.R;
 import com.example.tabapplication.models.Bookmark;
 
@@ -101,5 +103,23 @@ public class BookmarkAdapter extends BaseAdapter {
         });
 
         return convertView;
+
+
+
+
+//        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                Intent intent = new Intent(context, ImageActivity.class);//new Intent(현재 액티비티, 이동할 액티비티 context : 그 당신의 액티비티 또는 환경
+//                for(int i = 0; i < imageIDs.length; i++){
+//                    if(filenames[i].equals(bookmark.getFile())) {
+//                        intent.putExtra("image ID", imageIDs[i]);
+//                        intent.putExtra("file name", filenames[i]);
+//                        context.startActivity(intent);
+//                    }
+//                }
+//                return true;
+//            }
+//        });
     }
 }
