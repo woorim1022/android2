@@ -56,13 +56,13 @@ public class ViewpageAdapter extends PagerAdapter {
                 num = i;
             }
         }
-        if(position + num <= 19) {
-            imageView.setImageResource(imageIDs[position+num]);
-            textView.setText(fileNames[position+num]);
+        if(position + num <=19) {
+            imageView.setImageResource(imageIDs[position + num]);
+            textView.setText(fileNames[position + num]);
         }
-        else {
-            imageView.setImageResource(imageIDs[position]);
-            textView.setText(fileNames[position]);
+        else{
+            imageView.setImageResource(imageIDs[position-1]);
+            textView.setText(fileNames[position-1]);
         }
         container.addView(v);
         return v;
