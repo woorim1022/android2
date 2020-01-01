@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tabapplication.adapters.BookmarkAdapter;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_add;
     private ListView Iv_bookmark;
     private ImageView photo_view;
+    private Button btn_remove;
 
     private int[] imageIDs = new int[] {
             R.drawable.ball, R.drawable.download, R.drawable.flower, R.drawable.leaf, R.drawable.sky, R.drawable.snowman, R.drawable.apple, R.drawable.bonobono, R.drawable.bubble, R.drawable.flag, R.drawable.frog, R.drawable.frozen, R.drawable.mickey, R.drawable.mouse2020, R.drawable.pororo, R.drawable.ryan, R.drawable.shoe, R.drawable.totoro, R.drawable.tulip, R.drawable.whale,
@@ -107,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         btn_add = (Button) findViewById(R.id.btn_add);
         Iv_bookmark = (ListView) findViewById(R.id.Iv_bookmark);
         photo_view = (ImageView) findViewById(R.id.photo_view);
+        btn_remove = (Button) findViewById(R.id.btn_remove);
 
 
 
@@ -125,18 +128,48 @@ public class MainActivity extends AppCompatActivity {
                 final String address = et_address.getText().toString();
                 final String file = filename.getText().toString();
                 Bookmark mBook = new Bookmark(address,file);
+                mList.add(mBook);
                 //데이타 저장
                 SharedPreferences sharedPreference = getSharedPreferences("MYPREFERENCE", Context.MODE_MULTI_PROCESS | Context.MODE_PRIVATE);
                 setBookmarkArrayPref(sharedPreference, "1", mList);
-                if(bookmarkAdapter.hasDuplicate(mBook, mList)) {
-                    Toast.makeText(MainActivity.this, getString(R.string.duplicate), Toast.LENGTH_SHORT).show();
-                } else {
-                    bookmarkAdapter.addBookmark(mBook);
-                    Toast.makeText(MainActivity.this, getString(R.string.complete), Toast.LENGTH_SHORT).show();
-                }
-                mList.add(mBook);
+                Bookmark bookmark = new Bookmark(address,file);
+                bookmarkAdapter.addBookmark(bookmark);
+                Toast.makeText(MainActivity.this, getString(R.string.complete), Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        btn_remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String address = et_address.getText().toString();
+                int i;
+                if (mList.size() != 0) {
+                    for (i = 0; i < mList.size(); i++) {
+                        if (mList.get(i).getAddres().equals(address)) {
+                            mList.remove(i);
+                        }
+                    }
+                    SharedPreferences sharedPreference = getSharedPreferences("MYPREFERENCE", Context.MODE_MULTI_PROCESS | Context.MODE_PRIVATE);
+                    removeBookmarkArrayPref(sharedPreference, "1", mList);
+                    Toast.makeText(MainActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "삭제할 즐겨찾기가 없습니다.", Toast.LENGTH_SHORT).show();
+                }
+                BookmarkAdapter bookmarkAdapter = new BookmarkAdapter(MainActivity.this, imageIDs, fileNames);
+                Iv_bookmark.setAdapter(bookmarkAdapter);
+                SharedPreferences pref=getSharedPreferences("MYPREFERENCE", Activity.MODE_PRIVATE);
+                String data = pref.getString("1","");
+
+
+
+                jsonParsingArray(bookmarkAdapter, data);
+            }
+        });
+
+
+
+
 
         photo_view.setOnClickListener(new View.OnClickListener(){
             @Override //이미지 불러오기기(갤러리 접근)
@@ -238,6 +271,24 @@ public class MainActivity extends AppCompatActivity {
             editor.putString(key, null);
         }
         editor.apply();
+    }
+    private void removeBookmarkArrayPref( SharedPreferences pref, String key, ArrayList<Bookmark> values) {
+        SharedPreferences.Editor editor = pref.edit();
+        JSONArray address = new JSONArray();
+        JSONArray file = new JSONArray();
+        JSONArray result = new JSONArray();
+        if(values.isEmpty()){
+            editor.putString(key, null);
+        }else {
+            for (int i = 0; i < values.size(); i++) {
+                address.put(values.get(i).getAddres());
+                file.put(values.get(i).getFile());
+            }
+            result.put(address);
+            result.put(file);
+            editor.putString(key, result.toString());
+        }
+        editor.commit();
     }
 
     private ArrayList<Bookmark> jsonParsingArray(BookmarkAdapter bookmarkAdapter, String json) {
