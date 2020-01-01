@@ -68,6 +68,15 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
+                        <ImageView
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/photo_view"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:text="갤러리에서 사진 가져오기"
+                            app:srcCompat="@android:drawable/ic_menu_gallery" />
+
                         <GridView
                             android:id="@+id/gridViewImages"
                             android:layout_width="match_parent"

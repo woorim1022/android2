@@ -24,9 +24,10 @@ public class BookmarkAdapter extends BaseAdapter {
     private ArrayList<Bookmark> bookmarks;
 
     Context context = null;
-
     int[] imageIDs = null;
     String[] filenames = null;
+    ArrayList<Bookmark> mList;
+
     public BookmarkAdapter(Context context, int[] imageIDs, String[] filenames) {
         this.context = context;
         this.imageIDs = imageIDs;
@@ -35,10 +36,12 @@ public class BookmarkAdapter extends BaseAdapter {
     }
 
     //중복등록 방지 메소드, 북마크 목록에서 동일한 것이 발견되면 true 를 반환하는 메소드
-    public boolean hasDuplicate(Bookmark bookmark) {
+    public boolean hasDuplicate(Bookmark bookmark1, ArrayList<Bookmark> List) {
+        Bookmark bookmark = bookmark1;
+        mList = List;
         boolean isDuplicate = false;
-        for(int i = 0; i < bookmarks.size();i++) {
-            Bookmark current = bookmarks.get(i);
+        for(int i = 0; i < mList.size();i++) {
+            Bookmark current = mList.get(i);
             if ( current.getAddres() == bookmark.getAddres()) {
                 isDuplicate = true;
             }
