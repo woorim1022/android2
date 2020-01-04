@@ -1,26 +1,20 @@
 package com.example.tabapplication;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.tabapplication.adapters.BookmarkAdapter;
-import com.example.tabapplication.models.Bookmark;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,16 +25,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
     private Adapter adapter;
     private ImageView photo_view;
     private Button btn_random;
     private Button btn_rank;
+    private Button btn_address;
+    private TextView tvData;
+    private ImageView imView;
+    private String imgUrl = "http://dnllab.incheon.ac.kr/appimg/";
+    private Bitmap bmImg;
+    private back task;
 
     private int[] imageIDs = new int[] {
             R.drawable.ball, R.drawable.download, R.drawable.flower, R.drawable.leaf, R.drawable.sky, R.drawable.snowman, R.drawable.apple, R.drawable.bonobono, R.drawable.bubble, R.drawable.flag, R.drawable.frog, R.drawable.frozen, R.drawable.mickey, R.drawable.mouse2020, R.drawable.pororo, R.drawable.ryan, R.drawable.shoe, R.drawable.totoro, R.drawable.tulip, R.drawable.whale,
@@ -49,9 +54,7 @@ public class MainActivity extends AppCompatActivity {
             "ball.jpg", "download.jpg", "flower.jpg", "leaf.jpg", "sky.jpg", "snowman.jpg", "apple.jpg", "bonobono.jpg", "bubble.jpg", "flag.jpg", "frog.jpg", "frozen.jpg", "mickey.png", "mouse2020.jpg", "pororo.jpg", "ryan.png", "shoe.jpg", "totoro.jpg", "tulip.jpg", "whale.jpg"
     };
 
-    private String[] foodIDs = new String[]{
-            "피자", "치킨", "햄버거", "중국집", "라면", "과자", "물", "과일", "보쌈", "족발"
-    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +88,108 @@ public class MainActivity extends AppCompatActivity {
         String a = getJsonString();
         jsonParsing(a);
 
+        btn_address = (Button) findViewById(R.id.btn_address);
+        tvData = (TextView) findViewById(R.id.tvData);
+
+
+        /////////주소연결//////////////////
+        btn_address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //아래 링크를 파라미터를 넘겨준다는 의미.
+                new JSONTask().execute("http://192.249.19.252:1280/address");
+            }
+        });
+
+        ///////////////////갤러리연결///////////////
+        task = new back();
+        imView = (ImageView) findViewById(R.id.imageView);
+        task.execute(imgUrl+"img1");
+    }
+
+    ////////갤러리 연결///////////////
+    private class back extends AsyncTask<String, Integer, Bitmap>{
+        @Override
+        protected Bitmap doInBackground(String[] urls) {
+            // TODO Auto-generated method stub
+            try{
+                URL myFileUrl = new URL(urls[0]);
+                HttpURLConnection conn = (HttpURLConnection)myFileUrl.openConnection();
+                conn.setDoInput(true);
+                conn.connect();
+                InputStream is = conn.getInputStream();
+                bmImg = BitmapFactory.decodeStream(is);
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+            return bmImg;
+        }
+        protected void onPostExecute(Bitmap img){
+            imView.setImageBitmap(bmImg);
+        }
+    }
+
+
+
+//////////////주소연결/////////////////
+    public class JSONTask extends AsyncTask<String, String, String>{
+        @Override
+        protected String doInBackground(String[] urls) {
+            try {
+                //JSONObject를 만들고 key value 형식으로 값을 저장해준다.
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.accumulate("name", "김우림");
+                jsonObject.accumulate("tel", "010-4104-3910");
+                HttpURLConnection con = null;
+                BufferedReader reader = null;
+                try {
+                    //URL url = new URL("http://192.249.19.252:1280/address");
+                    URL url = new URL(urls[0]);//url을 가져온다.
+                    con = (HttpURLConnection) url.openConnection();
+                    con.connect();//연결 수행
+                    //입력 스트림 생성
+                    InputStream stream = con.getInputStream();
+                    //속도를 향상시키고 부하를 줄이기 위한 버퍼를 선언한다.
+                    reader = new BufferedReader(new InputStreamReader(stream));
+                    //실제 데이터를 받는곳
+                    StringBuffer buffer = new StringBuffer();
+                    //line별 스트링을 받기 위한 temp 변수
+                    String line = "";
+                    //아래라인은 실제 reader에서 데이터를 가져오는 부분이다. 즉 node.js서버로부터 데이터를 가져온다.
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line);
+                    }
+                    //다 가져오면 String 형변환을 수행한다. 이유는 protected String doInBackground(String… urls) 니까
+                    return buffer.toString();
+                    //아래는 예외처리 부분이다.
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    //종료가 되면 disconnect메소드를 호출한다.
+                    if (con != null) {
+                        con.disconnect();
+                    }
+                    try {
+                        //버퍼를 닫아준다.
+                        if (reader != null) {
+                            reader.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }//finally 부분
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            tvData.setText(result);
+        }
     }
 
 
@@ -123,6 +228,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, RandomActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_rank.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RankFoodActivity.class);
                 startActivity(intent);
             }
         });
@@ -190,7 +303,6 @@ public class MainActivity extends AppCompatActivity {
                 adapter.addItem(person);
                 String name = "이름 : " + nameEditText.getText().toString();
                 String nickname = "전화번호 : " + NicknameEditText.getText().toString();
-
                 Toast.makeText(getApplicationContext(),name + "\n" + nickname, Toast.LENGTH_LONG).show();
             }
         });
@@ -222,6 +334,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 //    public void OnClickHandler2(View view)
 //    {
 ////        final TextView a = findViewById(R.id.name_id);
