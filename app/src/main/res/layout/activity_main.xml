@@ -61,123 +61,60 @@
                         android:layout_marginBottom="30dp"/>
 
                 </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/tab2"
-                        android:background="#a0c0d7"
+                <LinearLayout
+                    android:id="@+id/tab2"
+                    android:background="#a0c0d7"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/photo_view"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:text="갤러리에서 사진 가져오기"
+                        app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+                    <GridView
+                        android:id="@+id/gridViewImages"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content"
+                        android:numColumns="3"
+                        android:horizontalSpacing="10dp"
+                        android:verticalSpacing="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_marginBottom="30dp">
+                    </GridView>
 
-                        <ImageView
-                            android:layout_marginTop="10dp"
-                            android:id="@+id/photo_view"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:gravity="center"
-                            android:text="갤러리에서 사진 가져오기"
-                            app:srcCompat="@android:drawable/ic_menu_gallery" />
+                </LinearLayout>
 
-                        <GridView
-                            android:id="@+id/gridViewImages"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:numColumns="3"
-                            android:horizontalSpacing="10dp"
-                            android:verticalSpacing="10dp"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:layout_marginBottom="30dp">
-                        </GridView>
 
-                    </LinearLayout>
-
-                <RelativeLayout
+                <LinearLayout
                     android:id="@+id/tab3"
                     android:background="#a0c0d7"
                     android:layout_width="match_parent"
+                    android:orientation="vertical"
                     android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:id="@+id/II_input"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="#a0c0d7"
-                        android:layout_marginStart="1dp"
-                        android:layout_marginLeft="1dp"
-                        android:layout_marginEnd="1dp"
-                        android:layout_marginRight="1dp"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="10dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <EditText
-                            android:id="@+id/et_address"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:textSize="14sp"
-                            android:hint="@string/app_name1"
-                            android:inputType="textPersonName"
-                            android:padding="10dp" />
-                        <EditText
-                            android:id="@+id/filename"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:textSize="14sp"
-                            android:hint="@string/app_name2"
-                            android:inputType="textPersonName"
-                            android:padding="10dp" />
-
-                        <Button
-                            android:id="@+id/btn_add"
-                            android:layout_width="350dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:text="@string/add"
-                            android:textColor="#FFFFFF"
-                            android:background="@drawable/buttonshape"
-                            android:textSize="18sp"
-                            android:shadowColor="#A8A8A8"
-                            android:shadowDx="0"
-                            android:shadowDy="0"
-                            android:shadowRadius="5"/>
-
-                        <Button
-                            android:id="@+id/btn_remove"
-                            android:layout_width="350dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:text="삭제"
-                            android:textColor="#FFFFFF"
-                            android:background="@drawable/buttonshape"
-                            android:textSize="18sp"
-                            android:shadowColor="#A8A8A8"
-                            android:shadowDx="0"
-                            android:shadowDy="0"
-                            android:shadowRadius="5"/>
-
-                    </LinearLayout>
-
-                    <ListView
-                        android:id="@+id/Iv_bookmark"
-                        android:layout_width="wrap_content"
-                        android:background="#a0c0d7"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/II_input"
-                        android:layout_marginTop="16dp"
-                        app:layout_constraintBottom_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" >
-
-                    </ListView>
 
 
-                </RelativeLayout>
+                    <Button
+                        android:id="@+id/btn_random"
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:text="랜덤추천" />
+
+                    <Button
+                        android:id="@+id/btn_rank"
+                        android:layout_width="100dp"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:text="순위보기" />
+                </LinearLayout>
+
             </FrameLayout>
         </LinearLayout>
     </TabHost>
