@@ -19,6 +19,13 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+    private Context context;
+    private String address;
+
+//    public Adapter(Context context, String address){
+//        this.context = context;
+//        this.address = address;
+//    }
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -39,23 +39,10 @@
 
                     <Button
                         android:id="@+id/btn_address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="주소록 가져오기" />
-
-                    <TextView
-                        android:id="@+id/tvData"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="TextView" />
-
-                    <Button
-                        android:id="@+id/button"
                         android:layout_width="300dp"
                         android:layout_marginTop="10dp"
                         android:layout_height="50dp"
-                        android:onClick="OnClickHandler"
-                        android:text="전화번호 추가"
+                        android:text="주소록 가져오기"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:layout_gravity="center"
@@ -64,6 +51,23 @@
                         android:shadowDx="0"
                         android:shadowDy="0"
                         android:shadowRadius="5"/>
+
+
+<!--                    <Button-->
+<!--                        android:id="@+id/button"-->
+<!--                        android:layout_width="300dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:layout_height="50dp"-->
+<!--                        android:onClick="OnClickHandler"-->
+<!--                        android:text="전화번호 추가"-->
+<!--                        android:textColor="#FFFFFF"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:background="@drawable/buttonshape"-->
+<!--                        android:shadowColor="#A8A8A8"-->
+<!--                        android:shadowDx="0"-->
+<!--                        android:shadowDy="0"-->
+<!--                        android:shadowRadius="5"/>-->
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler1"

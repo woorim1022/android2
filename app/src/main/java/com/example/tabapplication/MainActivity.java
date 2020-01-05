@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,11 +42,9 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_random;
     private Button btn_rank;
     private Button btn_address;
-    private TextView tvData;
     private ImageView imView;
     private String imgUrl = "http://dnllab.incheon.ac.kr/appimg/";
     private Bitmap bmImg;
-    private back task;
 
     private int[] imageIDs = new int[] {
             R.drawable.ball, R.drawable.download, R.drawable.flower, R.drawable.leaf, R.drawable.sky, R.drawable.snowman, R.drawable.apple, R.drawable.bonobono, R.drawable.bubble, R.drawable.flag, R.drawable.frog, R.drawable.frozen, R.drawable.mickey, R.drawable.mouse2020, R.drawable.pororo, R.drawable.ryan, R.drawable.shoe, R.drawable.totoro, R.drawable.tulip, R.drawable.whale,
@@ -83,14 +82,13 @@ public class MainActivity extends AppCompatActivity {
         ts3.setIndicator(tab3View);
         ts3.setContent(R.id.tab3);
         tabHost1.addTab(ts3);
-
         init();
+
+
         String a = getJsonString();
-        jsonParsing(a);
+
 
         btn_address = (Button) findViewById(R.id.btn_address);
-        tvData = (TextView) findViewById(R.id.tvData);
-
 
         /////////주소연결//////////////////
         btn_address.setOnClickListener(new View.OnClickListener() {
@@ -101,33 +99,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ///////////////////갤러리연결///////////////
-        task = new back();
-        imView = (ImageView) findViewById(R.id.imageView);
-        task.execute(imgUrl+"img1");
     }
 
-    ////////갤러리 연결///////////////
-    private class back extends AsyncTask<String, Integer, Bitmap>{
-        @Override
-        protected Bitmap doInBackground(String[] urls) {
-            // TODO Auto-generated method stub
-            try{
-                URL myFileUrl = new URL(urls[0]);
-                HttpURLConnection conn = (HttpURLConnection)myFileUrl.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-                InputStream is = conn.getInputStream();
-                bmImg = BitmapFactory.decodeStream(is);
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-            return bmImg;
-        }
-        protected void onPostExecute(Bitmap img){
-            imView.setImageBitmap(bmImg);
-        }
-    }
 
 
 
@@ -142,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 jsonObject.accumulate("tel", "010-4104-3910");
                 HttpURLConnection con = null;
                 BufferedReader reader = null;
+                Log.d("@@@@@","4");
                 try {
                     //URL url = new URL("http://192.249.19.252:1280/address");
                     URL url = new URL(urls[0]);//url을 가져온다.
@@ -158,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                     //아래라인은 실제 reader에서 데이터를 가져오는 부분이다. 즉 node.js서버로부터 데이터를 가져온다.
                     while ((line = reader.readLine()) != null) {
                         buffer.append(line);
+                        Log.d("@@@@@","3");
                     }
                     //다 가져오면 String 형변환을 수행한다. 이유는 protected String doInBackground(String… urls) 니까
                     return buffer.toString();
@@ -169,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 } finally {
                     //종료가 되면 disconnect메소드를 호출한다.
                     if (con != null) {
-                        con.disconnect();
+                            con.disconnect();
                     }
                     try {
                         //버퍼를 닫아준다.
@@ -188,15 +163,18 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            tvData.setText(result);
+            String address = "{ 'person': " + result + " } ";
+            jsonParsing(address);
+
         }
     }
 
 
     private void init() {
+
         RecyclerView recyclerView = findViewById(R.id.recycler1);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
         adapter = new Adapter();
@@ -204,6 +182,8 @@ public class MainActivity extends AppCompatActivity {
         RecyclerDecoration spaceDecoration = new RecyclerDecoration(110);
         recyclerView.addItemDecoration(spaceDecoration);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), 1));
+
+
 
 
         GridView gridViewImages = findViewById(R.id.gridViewImages);
@@ -237,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, RankFoodActivity.class);
                 startActivity(intent);
+
             }
         });
 
@@ -266,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void jsonParsing(String json)
     {
+        Log.d("아아아아","1022");
         try{
             JSONObject jsonObject = new JSONObject(json);
             JSONArray personArray = jsonObject.getJSONArray("person");
