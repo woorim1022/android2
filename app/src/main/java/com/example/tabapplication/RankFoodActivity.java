@@ -112,8 +112,6 @@ public class RankFoodActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-
-
-
+    //test
 
 }
