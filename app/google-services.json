@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "686749183783",
+    "firebase_url": "https://madcamp2st.firebaseio.com",
+    "project_id": "madcamp2st",
+    "storage_bucket": "madcamp2st.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686749183783:android:907d426d45a7b697930302",
+        "android_client_info": {
+          "package_name": "com.example.tabapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "686749183783-umt0n1i1nqqcgc9fa1s6c9dcri1o2oaq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tabapplication",
+            "certificate_hash": "d8867209c33893bfe80c8943993c21c58cc43864"
+          }
+        },
+        {
+          "client_id": "686749183783-aaek672ibgat19qa0r5f1qni6910hm95.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmb46rCwWkr00Sv56Oe8OmyHbgJmya3wY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "686749183783-aaek672ibgat19qa0r5f1qni6910hm95.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
