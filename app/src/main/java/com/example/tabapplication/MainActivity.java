@@ -86,9 +86,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         String a = getJsonString();
+        jsonParsing(a);
 
 
         btn_address = (Button) findViewById(R.id.btn_address);
+
+
 
         /////////주소연결//////////////////
         btn_address.setOnClickListener(new View.OnClickListener() {
@@ -173,10 +176,8 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
 
         RecyclerView recyclerView = findViewById(R.id.recycler1);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(linearLayoutManager);
-
         adapter = new Adapter();
         recyclerView.setAdapter(adapter);
         RecyclerDecoration spaceDecoration = new RecyclerDecoration(110);
@@ -245,6 +246,12 @@ public class MainActivity extends AppCompatActivity {
 
         return json;
     }
+
+
+
+
+
+
     private void jsonParsing(String json)
     {
         Log.d("아아아아","1022");
@@ -267,6 +274,12 @@ public class MainActivity extends AppCompatActivity {
         }
         adapter.notifyDataSetChanged();
     }
+
+
+
+
+
+
     public void OnClickHandler(View view)
     {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog, null);
@@ -317,36 +330,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    public void OnClickHandler2(View view)
-//    {
-////        final TextView a = findViewById(R.id.name_id);
-////        final TextView b = findViewById(R.id.tel_id);
-//        View dialogView = getLayoutInflater().inflate(R.layout.dialog, null);
-//        final EditText nameEditText = dialogView.findViewById(R.id.name);
-//        final EditText NicknameEditText = dialogView.findViewById(R.id.nickname);
-////        nameEditText.setText(a.getText());
-////        NicknameEditText.setText(b.getText());
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setView(dialogView);
-//
-//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-//            public void onClick(DialogInterface dialog, int pos)
-//            {
-//                Person person = new Person();
-//                person.setName(nameEditText.getText().toString());
-//                person.setTel(NicknameEditText.getText().toString());
-////                adapter.changeItem(person,a,b);
-//                String name = "이름 : " + nameEditText.getText().toString();
-//                String nickname = "전화번호 : " + NicknameEditText.getText().toString();
-//
-//                Toast.makeText(getApplicationContext(),name + "\n" + nickname, Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//        AlertDialog alertDialog = builder.create();
-//        alertDialog.show();
-//        adapter.notifyDataSetChanged();
-//    }
+
 }
 
 

@@ -1,8 +1,8 @@
 package com.example.tabapplication.models;
 
 public class Foodcount {
-    private String foodname;
-    private int count;
+    private String foodname = null;
+    private int count = 0;
 
     public String getfoodname() {
         return foodname;

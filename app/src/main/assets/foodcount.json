@@ -1,51 +1,51 @@
 { "Foodcount" : [
   {
     "foodname" : "피자",
-    "count" : "0"
+    "count" : 0
   },
   {
     "foodname" : "치킨",
-    "count" : "0"
+    "count" : 0
   },
   {
     "foodname" : "햄버거",
-    "count" : "0"
+    "count" : 0
   },
   {
     "foodname" : "중국집",
-    "count" : "0"
+    "count" : 0
   },
   {
     "foodname" : "라면",
-    "count" : "0"
+    "count" : 0
   },
   {
     "foodname" : "과자",
-    "count" : "0"
+    "count" : 0
   },
   {
     "foodname" : "물",
-    "count" : "0"
+    "count" : 0
   },
   {
     "foodname" : "과일",
-    "count" : "0"
+    "count" : 0
   },
   {
     "foodname" : "보쌈",
-    "count" : "0"
+    "count" : 0
   },
   {
     "foodname" : "족발",
-    "count" : "0"
+    "count" : 0
   },
   {
     "foodname" : "곱창",
-    "count" : "0"
+    "count" : 0
   },
   {
     "foodname" : "떡볶이",
-    "count" : "0"
+    "count" : 0
   }
 ]
 }

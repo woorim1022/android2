@@ -19,9 +19,11 @@ public class Bookmark {
     public String getAddres() {
         return address;
     }
+
     public String getFile(){
         return filename;
     }
+
     @Override
     public boolean equals(Object object) {
         return object instanceof Bookmark && address.equals(((Bookmark) object).getAddres());

@@ -1,6 +1,7 @@
 package com.example.tabapplication;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,20 +20,16 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
-    private Context context;
-    private String address;
+    private ArrayList<Person> listData = new ArrayList<>();
 
-//    public Adapter(Context context, String address){
-//        this.context = context;
-//        this.address = address;
-//    }
+
+
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView name ;
         TextView tel;
-
-        public ViewHolder(View itemView) {
+            public ViewHolder(View itemView) {
                 super(itemView) ;
 
                 // 뷰 객체에 대한 참조. (hold strong reference)
@@ -40,11 +37,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                 tel = itemView.findViewById(R.id.tel_id) ;
             }
             void onBind(Person data) {
-            name.setText(data.getName());
-            tel.setText(data.getTel());
-        }
+                name.setText(data.getName());
+                tel.setText(data.getTel());
+            }
     }
-    private ArrayList<Person> listData = new ArrayList<>();
+
+
 
 
     // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
@@ -55,11 +53,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         return new Adapter.ViewHolder(view);
     }
 
+
+
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
     public void onBindViewHolder(@NonNull Adapter.ViewHolder holder, int position) {
         holder.onBind(listData.get(position));
     }
+
+
 
     // getItemCount() - 전체 데이터 갯수 리턴.
     @Override
@@ -67,16 +69,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         return listData.size() ;
     }
 
+
+
+
     void addItem(Person data) {
         // 외부에서 item을 추가시킬 함수입니다.
         listData.add(data);
     }
-//    void changeItem(Person data, TextView view1,TextView view2){
-//        for(int i = 0; i < listData.size(); i ++) {
-//            if((listData.get(i).getName() == view1.getText()) ||(listData.get(i).getName() == view2.getText())){
-//                    listData.set(i,data);
-//            }
-//        }
-//    }
+
+
+
 
 }
