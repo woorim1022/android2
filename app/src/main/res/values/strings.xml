@@ -5,4 +5,10 @@
     <string name="add">추가</string>
     <string name="duplicate">이미 등록된 주소입니다.</string>
     <string name="complete">등록되었습니다.</string>
+
+    <!--페이스북-->
+    <string name="facebook_app_id">457844324845360</string>
+    <string name="fb_login_protocol_scheme">fb457844324845360</string>
+
+
 </resources>

@@ -34,9 +34,9 @@ public class RankFoodActivity extends AppCompatActivity {
 
 
 
-        RankFoodAdaper RankFoodAdapter = new RankFoodAdaper(this);
-        ListView ranklist = findViewById(R.id.ranklist);
-        ranklist.setAdapter(RankFoodAdapter);
+//        RankFoodAdaper RankFoodAdapter = new RankFoodAdaper(this);
+//        ListView ranklist = findViewById(R.id.ranklist);
+//        ranklist.setAdapter(RankFoodAdapter);
 
 
 
