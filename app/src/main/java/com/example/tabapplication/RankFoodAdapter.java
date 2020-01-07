@@ -75,4 +75,3 @@ public class RankFoodAdapter extends RecyclerView.Adapter<RankFoodAdapter.ViewHo
 
 
 
-

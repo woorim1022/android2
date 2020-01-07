@@ -85,14 +85,14 @@ public class RandomActivity extends AppCompatActivity {
         }
 
 
+
+
         btn_choose.setOnClickListener(new View.OnClickListener() {
                 @Override //이미지 불러오기기(갤러리 접근)
                 public void onClick(View v) {
                     Toast.makeText(getApplicationContext(), "맛있게 드세요!", Toast.LENGTH_LONG).show();
-                    String chosenfood = textView2.getText().toString();
                     Foodcount foodcount = new Foodcount();
                     String foodjson = getJsonString();
-                    Log.d("오예오예", foodjson);
                     try {
                         JSONObject jsonObject = new JSONObject(foodjson);
                         JSONArray foodcountArray = jsonObject.getJSONArray("Foodcount");
@@ -103,12 +103,12 @@ public class RandomActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
                     request(foodcount);
-                    new JSONTask().execute("http://192.249.19.252:1280/foodcount");
+                    new RandomActivity.JSONTask().execute("http://192.249.19.252:1280/foodcount");
+
                 }
             });
+
 
 
         btn_again.setOnClickListener(new View.OnClickListener(){
@@ -126,34 +126,42 @@ public class RandomActivity extends AppCompatActivity {
 
 
 
-    public class JSONTask extends AsyncTask<String, String, String> {
+    public class JSONTask extends AsyncTask<String, String, String>{
         @Override
         protected String doInBackground(String[] urls) {
             try {
                 //JSONObject를 만들고 key value 형식으로 값을 저장해준다.
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.accumulate("foodname", "하하하");
-                jsonObject.accumulate("count", 0);
+                jsonObject.accumulate("foodname", "김우림");
+                jsonObject.accumulate("count", 1022);
                 HttpURLConnection con = null;
                 BufferedReader reader = null;
-                Log.d("@@@@@","2");
+                Log.d("@@@@@","9999");
                 try {
-                    //URL url = new URL("http://192.249.19.252:1280/address");
+                    //URL url = new URL("http://192.249.19.252:1280/foodcount");
+                    Log.d("@@@@@","7777");
                     URL url = new URL(urls[0]);//url을 가져온다.
+                    Log.d("@@@@@","url");
                     con = (HttpURLConnection) url.openConnection();
+                    Log.d("@@@@@","con");
                     con.connect();//연결 수행
+                    Log.d("@@@@@","connect");
                     //입력 스트림 생성
-                    InputStream stream = con.getInputStream();
+                    InputStream stream2 = con.getInputStream();
+                    Log.d("@@@@@","InputStream");
                     //속도를 향상시키고 부하를 줄이기 위한 버퍼를 선언한다.
-                    reader = new BufferedReader(new InputStreamReader(stream));
+                    reader = new BufferedReader(new InputStreamReader(stream2));
+                    Log.d("@@@@@","reader");
                     //실제 데이터를 받는곳
                     StringBuffer buffer = new StringBuffer();
+                    Log.d("@@@@@","buffer");
                     //line별 스트링을 받기 위한 temp 변수
                     String line = "";
+                    Log.d("@@@@@",line);
                     //아래라인은 실제 reader에서 데이터를 가져오는 부분이다. 즉 node.js서버로부터 데이터를 가져온다.
                     while ((line = reader.readLine()) != null) {
                         buffer.append(line);
-                        Log.d("@@@@@","3");
+                        Log.d("@@@@@","8888");
                     }
                     //다 가져오면 String 형변환을 수행한다. 이유는 protected String doInBackground(String… urls) 니까
                     return buffer.toString();
@@ -184,12 +192,12 @@ public class RandomActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            String a = "{ 'Foodcount': " + result + " } ";
-            Log.d("oooo", a);
-            jsonParsing(a);
+            Log.d("ㅂㅂㅂㅂㅂ", result);
+            String address = "{ 'Foodcount': " + result + " } ";
+            jsonParsing(address);
+
         }
     }
-
 
 
 

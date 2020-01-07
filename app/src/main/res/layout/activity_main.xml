@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#a0c0d7"
     android:layout_height="match_parent"
     tools:context=".MainActivity1">
 
@@ -32,7 +31,7 @@
 
                 <LinearLayout
                     android:id="@+id/tab1"
-                    android:background="#a0c0d7"
+                    android:background="#FFFFFF"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -79,7 +78,7 @@
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/tab2"
-                    android:background="#a0c0d7"
+                    android:background="#FFFFFF"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -110,7 +109,7 @@
 
                 <LinearLayout
                     android:id="@+id/tab3"
-                    android:background="#a0c0d7"
+                    android:background="#FFFFFF"
                     android:layout_width="match_parent"
                     android:orientation="vertical"
                     android:layout_height="wrap_content">
@@ -118,17 +117,36 @@
 
                     <Button
                         android:id="@+id/btn_random"
-                        android:layout_width="100dp"
-                        android:layout_height="50dp"
                         android:gravity="center"
-                        android:text="랜덤추천" />
+                        android:layout_margin="50dp"
+                        android:text="랜덤추천"
+                        android:layout_width="300dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="50dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/buttonshape"
+                        android:shadowColor="#A8A8A8"
+                        android:shadowDx="0"
+                        android:shadowDy="0"
+                        android:shadowRadius="5"/>
 
                     <Button
                         android:id="@+id/btn_rank"
-                        android:layout_width="100dp"
-                        android:layout_height="50dp"
                         android:gravity="center"
-                        android:text="순위보기" />
+                        android:text="순위보기"
+                        android:layout_width="300dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="50dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/buttonshape"
+                        android:shadowColor="#A8A8A8"
+                        android:shadowDx="0"
+                        android:shadowDy="0"
+                        android:shadowRadius="5"/>
                 </LinearLayout>
 
             </FrameLayout>
