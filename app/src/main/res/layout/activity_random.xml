@@ -2,37 +2,63 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     >
 
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="match_parent"
+        android:textSize="30dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="추천하는 야식은, " />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="match_parent"
+        android:textSize="30dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="" />
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="match_parent"
+        android:textSize="30dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="입니다." />
 
     <Button
         android:id="@+id/btn_choose"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="선택" />
+        android:text="선택"
+        android:layout_width="300dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="50dp"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"/>
 
     <Button
         android:id="@+id/btn_again"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="다시선택" />
+        android:text="다시선택"
+        android:layout_width="300dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="50dp"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"/>
+
 
 
 </LinearLayout>

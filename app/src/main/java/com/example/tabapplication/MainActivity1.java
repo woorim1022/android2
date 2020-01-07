@@ -115,16 +115,23 @@ public class MainActivity1 extends AppCompatActivity {
                 try {
                     //URL url = new URL("http://192.249.19.252:1280/address");
                     URL url = new URL(urls[0]);//url을 가져온다.
+                    Log.d("@@@@@","URL");
                     con = (HttpURLConnection) url.openConnection();
+                    Log.d("@@@@@","con");
                     con.connect();//연결 수행
+                    Log.d("@@@@@","connect");
                     //입력 스트림 생성
                     InputStream stream = con.getInputStream();
+                    Log.d("@@@@@","InputStream");
                     //속도를 향상시키고 부하를 줄이기 위한 버퍼를 선언한다.
                     reader = new BufferedReader(new InputStreamReader(stream));
+                    Log.d("@@@@@","reader");
                     //실제 데이터를 받는곳
                     StringBuffer buffer = new StringBuffer();
+                    Log.d("@@@@@","StringBuffer");
                     //line별 스트링을 받기 위한 temp 변수
                     String line = "";
+                    Log.d("@@@@@","line");
                     //아래라인은 실제 reader에서 데이터를 가져오는 부분이다. 즉 node.js서버로부터 데이터를 가져온다.
                     while ((line = reader.readLine()) != null) {
                         buffer.append(line);
@@ -159,6 +166,7 @@ public class MainActivity1 extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            Log.d("ㅎㅎㅎㅎㅎ", result);
             String address = "{ 'person': " + result + " } ";
             jsonParsing(address);
 

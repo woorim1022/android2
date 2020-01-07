@@ -73,37 +73,44 @@ public class RandomActivity extends AppCompatActivity {
 
 
 
+        String foodjson = getJsonString();
+        Log.d("오예오예", foodjson);
+        try {
+            JSONObject jsonObject = new JSONObject(foodjson);
+            JSONArray foodcountArray = jsonObject.getJSONArray("Foodcount");
+            final Object count = foodcountArray.getJSONObject(num).get("count");
+            Log.d("우우우우",  count.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
 
-            btn_choose.setOnClickListener(new View.OnClickListener() {
+
+        btn_choose.setOnClickListener(new View.OnClickListener() {
                 @Override //이미지 불러오기기(갤러리 접근)
                 public void onClick(View v) {
                     Toast.makeText(getApplicationContext(), "맛있게 드세요!", Toast.LENGTH_LONG).show();
-                    String chosenfood = textView2.getText().toString();
-                    JSONObject jsonMain = new JSONObject();
-                    JSONArray jsonArray = new JSONArray();
-                    JSONObject jsonObject = new JSONObject();
                     Foodcount foodcount = new Foodcount();
-                    foodcount.setfoodname(foodIDs[num]);
-                    foodcount.setcount(0);
+                    String foodjson = getJsonString();
+                    try {
+                        JSONObject jsonObject = new JSONObject(foodjson);
+                        JSONArray foodcountArray = jsonObject.getJSONArray("Foodcount");
+                        Object count = foodcountArray.getJSONObject(num).get("count");
+                        int a = (int)count;
+                        foodcount.setfoodname(foodIDs[num]);
+                        foodcount.setcount(a);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     request(foodcount);
                     new RandomActivity.JSONTask().execute("http://192.249.19.252:1280/foodcount");
-//                    try {
-//                        for (int i = 0; i < foodIDs.length; i++) {
-//                            if (chosenfood.equals(foodIDs[i])) {
-//                                jsonObject.put("count", foodcountlist.get(i).getcount() + 1);     //1을 더해서 넣어줌
-//                            } else {
-//                                jsonObject.put(foodIDs[i], foodcountlist.get(i).getcount());       //그냥 넣어줌
-//                            }
-//                            jsonArray.add(jsonObject);
-//                        }
-//                        jsonMain.put("Foodcount", jsonArray);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
+
                 }
             });
+
+
+
         btn_again.setOnClickListener(new View.OnClickListener(){
             @Override //이미지 불러오기기(갤러리 접근)
             public void onClick(View v) {
@@ -112,34 +119,49 @@ public class RandomActivity extends AppCompatActivity {
             }
         });
     }
-    public class JSONTask extends AsyncTask<String, String, String> {
+
+
+
+
+
+
+
+    public class JSONTask extends AsyncTask<String, String, String>{
         @Override
         protected String doInBackground(String[] urls) {
             try {
                 //JSONObject를 만들고 key value 형식으로 값을 저장해준다.
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.accumulate("foodname", "하하하");
-                jsonObject.accumulate("count", 0);
+                jsonObject.accumulate("foodname", "김우림");
+                jsonObject.accumulate("count", 1022);
                 HttpURLConnection con = null;
                 BufferedReader reader = null;
-                Log.d("@@@@@","2");
+                Log.d("@@@@@","9999");
                 try {
-                    //URL url = new URL("http://192.249.19.252:1280/address");
+                    //URL url = new URL("http://192.249.19.252:1280/foodcount");
+                    Log.d("@@@@@","7777");
                     URL url = new URL(urls[0]);//url을 가져온다.
+                    Log.d("@@@@@","url");
                     con = (HttpURLConnection) url.openConnection();
+                    Log.d("@@@@@","con");
                     con.connect();//연결 수행
+                    Log.d("@@@@@","connect");
                     //입력 스트림 생성
-                    InputStream stream = con.getInputStream();
+                    InputStream stream2 = con.getInputStream();
+                    Log.d("@@@@@","InputStream");
                     //속도를 향상시키고 부하를 줄이기 위한 버퍼를 선언한다.
-                    reader = new BufferedReader(new InputStreamReader(stream));
+                    reader = new BufferedReader(new InputStreamReader(stream2));
+                    Log.d("@@@@@","reader");
                     //실제 데이터를 받는곳
                     StringBuffer buffer = new StringBuffer();
+                    Log.d("@@@@@","buffer");
                     //line별 스트링을 받기 위한 temp 변수
                     String line = "";
+                    Log.d("@@@@@",line);
                     //아래라인은 실제 reader에서 데이터를 가져오는 부분이다. 즉 node.js서버로부터 데이터를 가져온다.
                     while ((line = reader.readLine()) != null) {
                         buffer.append(line);
-                        Log.d("@@@@@","3");
+                        Log.d("@@@@@","8888");
                     }
                     //다 가져오면 String 형변환을 수행한다. 이유는 protected String doInBackground(String… urls) 니까
                     return buffer.toString();
@@ -170,17 +192,28 @@ public class RandomActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            Log.d("ㅂㅂㅂㅂㅂ", result);
             String address = "{ 'Foodcount': " + result + " } ";
-            Log.d("oooo", address);
             jsonParsing(address);
 
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
     public void request(Foodcount food){
         //url 요청주소 넣는 editText를 받아 url만들기
         String url = "http://192.249.19.252:1280/foodcount";
-        Log.d("되라", url);
 
         //JSON형식으로 데이터 통신을 진행합니다!
         JSONObject testjson = new JSONObject();
@@ -189,7 +222,6 @@ public class RandomActivity extends AppCompatActivity {
             testjson.put("foodname", food.getfoodname());
             testjson.put("count", food.getcount());
             String jsonString = testjson.toString(); //완성된 json 포맷
-            Log.d("되라", "1");
 
             //이제 전송해볼까요?
             final RequestQueue requestQueue = Volley.newRequestQueue(RandomActivity.this);
@@ -205,8 +237,6 @@ public class RandomActivity extends AppCompatActivity {
                         //받은 json형식의 응답을 받아
                         JSONObject jsonObject = new JSONObject(response.toString());
                         String address = "{ 'Foodcount': " + jsonObject + " } ";
-
-                        Log.d("되라", "룰루");
                         //foodcount.json 에 저장하는 코드
 
 
@@ -231,16 +261,31 @@ public class RandomActivity extends AppCompatActivity {
 
 
 
-    private void jsonParsing(String json)
+
+
+
+
+    private String getJsonString()
     {
-        Log.d("아아아아","1022");
-        try{
-            JSONObject jsonObject = new JSONObject(json);
-            JSONArray personArray = jsonObject.getJSONArray("person");
-            //foodcount.json 에 저장
-        }catch (JSONException e) {
-            e.printStackTrace();
+        String json = "";
+
+        try {
+            InputStream is = getAssets().open("foodcount.json");
+            int fileSize = is.available();
+
+            byte[] buffer = new byte[fileSize];
+            is.read(buffer);
+            is.close();
+
+            json = new String(buffer, "UTF-8");
         }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return json;
+
     }
 
 
@@ -250,4 +295,32 @@ public class RandomActivity extends AppCompatActivity {
 
 
 
+
+
+    private void jsonParsing(String json)
+    {
+        Log.d("jsonparsing",json);
+        try{
+            JSONObject jsonObject = new JSONObject(json);
+            JSONArray foodcountArray = jsonObject.getJSONArray("Foodcount");
+            for(int i=0; i<foodcountArray.length(); i++)
+            {
+                JSONObject foodcountObject = foodcountArray.getJSONObject(i);
+
+                Foodcount foodcount = new Foodcount();
+
+                foodcount.setfoodname(foodcountObject.getString("foodname"));
+                foodcount.setcount(foodcountObject.getInt("count"));
+
+            }
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+//test
 }
