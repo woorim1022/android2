@@ -1,7 +1,7 @@
 { "Foodcount" : [
   {
     "foodname" : "피자",
-    "count" : 0
+    "count" : 1111
   },
   {
     "foodname" : "치킨",
@@ -24,8 +24,8 @@
     "count" : 0
   },
   {
-    "foodname" : "물",
-    "count" : 0
+  "foodname" : "물",
+  "count" : 0
   },
   {
     "foodname" : "과일",
